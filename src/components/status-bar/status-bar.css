@@ -1,0 +1,12 @@
+.status-bar{
+    height: 25px;
+    width: 100%;
+    border-top: 1px solid var(--primary-light);
+    background-color: var(--primary);
+    color: var(--text-secondary);
+    font-size: 0.7em;
+    padding: 2px;
+    padding-left: 12px;
+    -webkit-user-select: none;
+
+}
