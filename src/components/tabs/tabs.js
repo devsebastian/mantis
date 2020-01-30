@@ -12,7 +12,7 @@ class Tabs extends React.Component {
         return (
             <div className="tabs">
                 {this.props.tabs.map((tab, pos) => <Tab title={tab.title} selected={pos !== this.props.activeTabIndex ? false : true} onClickListener={() => this.props.setActiveTab(pos)} key={pos} pos={pos} />)}
-                <Tab title="+" selected={false} onClickListener={() => this.props.addTab("untitled")}/>
+                <Tab title="+" selected={false} onClickListener={() => this.props.addTab("Untitled-"+  this.props.tabs.length)}/>
             </div>
         )
     }

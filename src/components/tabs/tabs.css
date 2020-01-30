@@ -1,4 +1,12 @@
-.tabs{
-    height: 100%;
+.tabs {
+    padding-left: 32px;
+    background-color: var(--primary);
     width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    flex-direction: row;
+}
+
+.tabs::-webkit-scrollbar{
+    height: 0px;
 }
