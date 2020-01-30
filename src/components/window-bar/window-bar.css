@@ -1,0 +1,11 @@
+#root{
+    --primary-dark: #36362f;
+}
+
+.window-bar{
+    background-color: var(--primary-dark);
+    height: 35px;
+    width: 100%;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}

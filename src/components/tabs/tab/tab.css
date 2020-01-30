@@ -1,0 +1,18 @@
+.tab {
+    height: 100%;
+    display: inline-block;
+    padding: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 0.9em;
+    -webkit-app-region: no-drag;
+    color: var(--text-secondary);
+    -webkit-user-select: none;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.tab--selected{
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--operator);
+}
