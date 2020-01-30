@@ -1,0 +1,100 @@
+:root {
+    --primary: #272822;
+    --primary-light: #49483E;
+    --primary-dark: #1b1b17;
+    --string: #E6DB74;
+    --number: #AE81FF;
+    --operator: #F92672;
+    --def: #A6E22E;
+    --type:#66D9EF;
+    --comment: #75715E;
+    --text-primary: #e3e5ea;
+    --text-secondary: #aaabaf;
+    --cursor: #fff;
+
+}
+
+.react-codemirror2 {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.CodeMirror{
+    width: 100%;
+    height: 100%;
+    padding-top: 12px;
+    color: var(--text-primary);
+    font-size: 0.9em;
+    background-color:  var(--primary);
+    font-family: 'consolas', sans-serif;
+    /* TODO change this to a local font */
+}
+
+.CodeMirror-selected {
+    background-color: #49483E !important;
+}
+
+.CodeMirror-matchingbracket {
+    background-color: rgba(173, 129, 255, 0.459);
+    outline: 1px solid var(--number);
+    color: var(--text-primary) !important;
+}
+
+.cm-type {
+    color: var(--type) !important;
+}
+
+.cm-def {
+    color: var(--def) !important;
+}
+
+.cm-keyword {
+    color: var(--operator) !important;
+}
+
+.cm-comment {
+    color: var(--comment) !important;
+}
+
+.cm-operator {
+    color: var(--operator) !important;
+}
+
+.cm-number {
+    color: var(--number) !important;
+}
+
+.cm-string {
+    color: var(--string) !important;
+}
+
+.cm-meta {
+    color: var(--operator) !important;
+}
+
+.cm-atom {
+    color: var(--number) !important;
+}
+
+.CodeMirror-linenumbers {
+    background-color: var(--primary);
+    margin-right: -1px;
+}
+
+.CodeMirror-gutters{
+    background: var(--primary);
+    border: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 12px;
+}
+
+.CodeMirror-linenumber {
+    margin-left: -12px;
+}
+
+.CodeMirror-cursor{
+    border-left: 1px solid var(--cursor);
+}

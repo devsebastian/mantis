@@ -1,6 +1,0 @@
-.status-bar{
-    height: 25px;
-    width: 100%;
-    border-top: 1px solid var(--primary-light);
-    background-color: var(--primary);
-}
