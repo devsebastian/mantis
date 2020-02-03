@@ -2,9 +2,9 @@
     padding-left: 32px;
     background-color: var(--primary);
     width: 100%;
-    overflow: auto;
     white-space: nowrap;
     flex-direction: row;
+    overflow: auto;
 }
 
 .tabs::-webkit-scrollbar{

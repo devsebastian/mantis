@@ -3,15 +3,16 @@ import './tab.css'
 
 class Tab extends React.Component {
 
-
-    componentDidMount() {
-    }
-
     render() {
-        const {title, selected} = this.props
+        const { title, selected } = this.props
         return (
-            <div className={selected ? "tab tab--selected" : "tab"} onClick={this.props.onClickListener}>
-                {title}
+            <div className={selected ? "tab tab--selected" : "tab"} >
+                <div className="tab-title"
+                    onClick={this.props.onClickListener} >
+                    {title}
+                </div>
+                <div className="tab-close-btn"
+                    onClick={() => this.props.closeTab(this.props.pos)}>✕</div>
             </div>
         )
     }

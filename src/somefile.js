@@ -37,14 +37,7 @@ function run_script(command, args, callback, write) {
                 if (typeof callback === 'function')
                     callback()
                 break;
-            case 1:
-                write(code)
-                break
-
         }
-
-
-
     });
 }
 

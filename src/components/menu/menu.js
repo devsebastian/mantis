@@ -16,7 +16,7 @@ class Menu extends React.Component {
     render() {
         return (
             <div className="menu">
-                {this.props.menu.map((item, pos) => <MenuItem key={pos} title={item.title} action={item.action} />)}
+                {this.props.menu.map((item, pos) => <MenuItem key={pos} title={item.title} action={item.action}/>)}
             </div>
         )
     }

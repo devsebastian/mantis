@@ -1,11 +1,17 @@
+.menu{
+    display: flex;
+}
 .menu-item{
     color: var(--text-secondary);
     vertical-align: middle;
     height: 100%;
     padding: 6px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     cursor: pointer;
     -webkit-user-select: none;
     -webkit-app-region: no-drag;
-    display: inline-block;
+}
+
+.menu-item:hover{
+    background-color: var(--primary);
 }

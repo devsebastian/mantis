@@ -24,7 +24,7 @@ function maximizeWindow() {
 function WindowBar(props) {
     return (
         <div className="window-bar">
-            <Menu menu={props.menu}/>
+            <Menu menu={props.menu}  />
             <div className="window-bar-spacer"></div>
             <img className="window-bar-icon window-bar-icon--normal" onClick={minimizeWindow} src={minimise} />
             <img className="window-bar-icon window-bar-icon--normal" onClick={maximizeWindow} src={maximise} />

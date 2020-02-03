@@ -10,15 +10,12 @@ import './editor.css'
 import run_script from './somefile';
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
-var child_process = window.require('child_process');
-var spawn = child_process.spawn;
-var child = child_process.execFile;
-var WIN = window.require('electron').remote.getCurrentWindow()
 
 const { dialog } = window.require('electron').remote
 const { app, globalShortcut } = window.require('electron').remote
-var fs = window.require('fs'); // Load the File System to execute our common tasks (CRUD)
+var fs = window.require('fs');
 
+import { save, open, compileAndRun, saveAs, compile } from './assets/crud'
 
 class App extends React.Component {
 
@@ -54,85 +51,12 @@ class App extends React.Component {
     })
     this.setActiveTab = this.setActiveTab.bind(this)
     this.addTab = this.addTab.bind(this)
+    this.closeTab = this.closeTab.bind(this)
     this.setTabContent = this.setTabContent.bind(this)
 
-    this.save = this.save.bind(this)
-    this.run = this.run.bind(this)
-    this.open = this.open.bind(this)
-
-    this.write = this.write.bind(this)
     this.append = this.append.bind(this)
-
-  }
-
-  save() {
-    // const options = {
-    //   defaultPath: app.getPath('documents') + '/' + this.state.tabs[this.state.activeTabIndex].title + '.cpp',
-    // }
-
-    // You can obviously give a direct path without use the dialog (C:/Program Files/path/myfileexample.txt)
-    // dialog.showSaveDialog((fileName) => {
-    //   if (fileName === undefined) {
-    //     this.append("You didn't save the file");
-    //     return;
-    //   }
-
-    //   // fileName is a string that contains the path and filename created in the save file dialog.  
-    //   fs.writeFile(fileName, this.state.tabs[this.state.activeTabIndex].data, (err) => {
-    //     if (err) {
-    //       this.append("An error ocurred creating the file: " + err.message)
-    //     }
-    //     this.append("The file has been succesfully saved");
-    //     this.setState(oldState => {
-    //       var tabs = oldState.tabs;
-    //       tabs[this.state.activeTabIndex].filename = fileName;
-    //       return { tabs: tabs }
-    //     })
-    //   });
-    // });
-
-    let options = {
-      title: "Save",
-      defaultPath: app.getPath('desktop'),
-      buttonLabel: "Save",
-      filters: [
-        { name: 'C++ source files', extensions: ['cpp', 'cc', 'cxx', 'c++', 'cp'] },
-        { name: 'C source files', extensions: ['c'] },
-        { name: 'Header files', extensions: ['h', 'hpp', 'rh', 'hh'] },
-        { name: 'Resource files', extensions: ['rc'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    }
-
-    dialog.showSaveDialog(WIN, options, (filename) => {
-      if (filename === undefined) {
-        return;
-      }
-
-      fs.writeFile(filename, this.state.tabs[this.state.activeTabIndex].data, (err) => {
-        if (err) {
-          this.append("An error ocurred creating the file: " + err.message)
-        }
-        this.append("The file has been succesfully saved at " + filename);
-        this.setState(oldState => {
-          var tabs = oldState.tabs;
-          tabs[this.state.activeTabIndex].filename = filename;
-          return { tabs: tabs }
-        })
-      });
-    })
-  }
-
-  open() {
-    var executablePath = this.state.tabs[this.state.activeTabIndex].filename.replace(".cpp", ".exe");
-    run_script("start", [executablePath], null);
-  }
-
-  run() {
-    // child_process.exec("start cmd /K c:");
-    run_script("g++", [this.state.tabs[this.state.activeTabIndex].filename, "-o", this.state.tabs[this.state.activeTabIndex].filename.replace(".cpp", ".exe")], this.open, this.append);
-    // console.log(this.state.tabs[this.state.activeTabIndex].filename);
-
+    this.write = this.write.bind(this)
+    this.setFilename = this.setFilename.bind(this)
   }
 
   write(message) {
@@ -166,29 +90,65 @@ class App extends React.Component {
     })
   }
 
+  closeTab(pos) {
+    this.setState(oldState => {
+      var tabs = oldState.tabs;
+      tabs.splice(pos, 1)
+      return { tabs: tabs };
+    })
+  }
+
+  setFilename(filename) {
+    this.setState(oldState => {
+      var tabs = oldState.tabs;
+      tabs[oldState.activeTabIndex].filename = filename;
+      tabs[oldState.activeTabIndex].title = filename.split("\\").pop();
+      return { tabs: tabs }
+    })
+  }
+
   render() {
     return (
-      <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column" }}>
+      <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         <WindowBar
           setActiveTab={this.setActiveTab}
-          addTab={this.addTab}
           tabs={this.state.tabs}
           activeTabIndex={this.state.activeTabIndex}
           menu={[
             {
               title: "Save",
-              action: this.save
+              action: () => {
+                saveAs(this.state.tabs[this.state.activeTabIndex].data, (filename) => {
+                  this.setFilename(filename)
+                })
+              }
             }, {
               title: "Compile",
-              action: this.run
+              action: () => {
+                compile(this.state.tabs[this.state.activeTabIndex].filename, this.state.tabs[this.state.activeTabIndex].data, (filename) => {
+                  this.setState({ terminalMessage: [] })
+                  this.setFilename(filename);
+                }, this.append)
+              }
+            }, {
+              title: "Compile And Run",
+              action: () => {
+                compileAndRun(this.state.tabs[this.state.activeTabIndex].filename, this.state.tabs[this.state.activeTabIndex].data, (filename) => {
+                  this.setState({ terminalMessage: [] })
+                  this.setFilename(filename);
+                }, this.append)
+              }
             }, {
               title: "Run",
-              action: this.open
+              action: () => {
+                open(this.state.tabs[this.state.activeTabIndex].filename.replace(".cpp", ".exe"), this.append)
+              }
             }
           ]} />
         <Tabs tabs={this.state.tabs}
           activeTabIndex={this.state.activeTabIndex}
           addTab={this.addTab}
+          closeTab={this.closeTab}
           setActiveTab={this.setActiveTab} />
         {/* <Editor setTabContent={this.setTabContent} data={this.state.tabs[this.state.activeTabIndex].data} /> */}
         <CodeMirror onBeforeChange={(editor, data, value) => { this.setTabContent(value) }} value={this.state.tabs[this.state.activeTabIndex].data} options={{

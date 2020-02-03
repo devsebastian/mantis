@@ -1,24 +1,38 @@
 .tab {
+    color: var(--text-secondary);
     height: 100%;
-    display: inline-block;
-    padding: 6px;
-    padding-left: 10px;
-    padding-right: 10px;
     font-size: 0.9em;
     -webkit-app-region: no-drag;
-    color: var(--text-secondary);
     -webkit-user-select: none;
     transition: all 0.1s ease;
     border-bottom: 2px solid transparent;
     cursor: pointer;
+    display: inline-block;
 }
 
 .tab--selected{
     color: var(--text-primary);
-    font-weight: 600;
     border-bottom: 2px solid var(--operator);
 }
 
+
 .tab:hover{
     color: var(--text-primary);
+}
+
+.tab div{
+    height: 100%;
+    display: inline-block;
+}
+
+.tab-title{
+    font-size: 0.9em;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tab-close-btn{
+    font-size: 0.8em;
+    padding: 4px;
 }

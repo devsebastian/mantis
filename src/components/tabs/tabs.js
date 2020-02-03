@@ -11,8 +11,13 @@ class Tabs extends React.Component {
     render() {
         return (
             <div className="tabs">
-                {this.props.tabs.map((tab, pos) => <Tab title={tab.title} selected={pos !== this.props.activeTabIndex ? false : true} onClickListener={() => this.props.setActiveTab(pos)} key={pos} pos={pos} />)}
-                <Tab title="+" selected={false} onClickListener={() => this.props.addTab("Untitled-"+  this.props.tabs.length)}/>
+                {this.props.tabs.map((tab, pos) => <Tab
+                    closeTab={this.props.closeTab}
+                    title={tab.title}
+                    selected={pos !== this.props.activeTabIndex ? false : true}
+                    onClickListener={() => this.props.setActiveTab(pos)}
+                    key={pos}
+                    pos={pos} />)}
             </div>
         )
     }

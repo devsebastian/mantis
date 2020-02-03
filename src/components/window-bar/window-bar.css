@@ -1,6 +1,3 @@
-#root {
-    --primary-dark: #36362f;
-}
 
 .window-bar {
     background-color: var(--primary-dark);
