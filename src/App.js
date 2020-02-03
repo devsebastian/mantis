@@ -7,15 +7,12 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/addon/edit/matchbrackets'
 import './editor.css'
-import run_script from './somefile';
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
 
-const { dialog } = window.require('electron').remote
-const { app, globalShortcut } = window.require('electron').remote
 var fs = window.require('fs');
 
-import { save, open, compileAndRun, saveAs, compile } from './assets/crud'
+import { open, compileAndRun, saveAs, compile } from './assets/crud'
 
 class App extends React.Component {
 
@@ -39,6 +36,11 @@ class App extends React.Component {
         tabs.splice([oldState.activeTabIndex], 1);
         return { tabs: tabs }
       })
+    })
+
+    globalShortcut.register('Ctrl+n', () => {
+      this.addTab("untitled");
+      this.setState({ activeTabIndex: this.states.tabs.length - 1 })
     })
 
     globalShortcut.register('Ctrl+r', () => {
@@ -160,7 +162,8 @@ class App extends React.Component {
         }}
 
           editorDidMount={e => { this.editor = e }} />
-        <Terminal messages={this.state.terminalMessage} />
+        <Terminal filename={this.state.tabs[this.state.activeTabIndex].filename}
+          messages={this.state.terminalMessage} />
         <StatusBar />
       </div>
     );

@@ -22,16 +22,17 @@ class Terminal extends React.Component {
     render() {
         return (
             this.props.messages.length == 0 ? <div></div> :
-            <div className="terminal">
-                <div id="resizer" onMouseDown={resize} >
+                <div className="terminal">
+                    <div id="resizer" onMouseDown={resize} >
+                    </div>
+                    <div className="resizable" style={{ height: 200 }}>
+                        {this.props.messages.map((m, pos) => <div key={pos}>{m}</div>)}
+                    </div>
                 </div>
-                <div className="resizable" style={{ height: 200 }}>
-                    {this.props.messages.map((m, pos) => <div key={pos}>{m}</div>)}
-                </div>
-            </div>
         )
     }
 }
+
 
 
 export default Terminal
