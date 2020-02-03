@@ -16,7 +16,7 @@
     "react-codemirror2": "^6.0.0",
     "react-dom": "^15.4.2"
   },
-  "main": "src/electron-starter.js",
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

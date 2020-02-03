@@ -1,9 +1,9 @@
 import * as React from 'react'
 import './window-bar.css'
-import Tabs from '../tabs/tabs'
 import minimise from '../../assets/minimise.svg'
 import maximise from '../../assets/maximise.svg'
 import close from '../../assets/close.svg'
+import Menu from '../menu/menu'
 const { remote } = window.require('electron')
 
 function closeWindow() {
@@ -24,6 +24,7 @@ function maximizeWindow() {
 function WindowBar(props) {
     return (
         <div className="window-bar">
+            <Menu menu={props.menu}/>
             <div className="window-bar-spacer"></div>
             <img className="window-bar-icon window-bar-icon--normal" onClick={minimizeWindow} src={minimise} />
             <img className="window-bar-icon window-bar-icon--normal" onClick={maximizeWindow} src={maximise} />
