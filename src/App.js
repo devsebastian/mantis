@@ -10,9 +10,9 @@ import './editor.css'
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
 
-var fs = window.require('fs');
 
 import { open, compileAndRun, saveAs, compile } from './assets/crud'
+const {globalShortcut} = window.require('electron').remote;
 
 class App extends React.Component {
 
@@ -156,7 +156,6 @@ class App extends React.Component {
         <CodeMirror onBeforeChange={(editor, data, value) => { this.setTabContent(value) }} value={this.state.tabs[this.state.activeTabIndex].data} options={{
           lineNumbers: true, mode: "text/x-c++src",
           indentWithTabs: true,
-          lineNumbers: true,
           indentUnit: 4,
           matchBrackets: true,
         }}

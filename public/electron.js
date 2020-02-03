@@ -14,7 +14,7 @@ let mainWindow;
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800, height: 600,
+        width: 1020, height: 900,
         frame: false,
     });
 
@@ -59,29 +59,3 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-
-ipcMain.on('openFile', (event, path) => {
-    const {dialog} = require('electron')
-    const fs = require('fs')
-    dialog.showOpenDialog(function (fileNames) {
-          
-       // fileNames is an array that contains all the selected
-       if(fileNames === undefined)
-          console.log("No file selected")
-       else
-          readFile(fileNames[0])
-    })
- 
-    function readFile(filepath){
-       fs.readFile(filepath, 'utf-8', (err, data) => {
-          if(err){
-             alert("An error ocurred reading the file :" + err.message)
-             return
-          }
-          
-          // handle the file content
-          event.sender.send('fileData', data)
-       })
-    }
- })
