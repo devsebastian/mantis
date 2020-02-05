@@ -27,24 +27,7 @@ function WindowBar(props) {
     return (
         <div className="window-bar">
             {/* <Menu menu={props.menu}  /> */}
-            <DropDownMenuBar menu={[
-                {
-                    title: "File",
-                    items: [
-                        { id: 1, title: "New", shortcut: "Ctrl+N", action: () => { console.log('new') } },
-                        { id: 2, title: "Open", action: () => { console.log('open') } },
-                        { id: 3, title: "Exit", action: () => { console.log('exit') } },
-                    ]
-                },
-                {
-                    title: "Edit",
-                    items: [
-                        { id: 1, title: "New", action: () => { console.log('new') } },
-                        { id: 2, title: "Open", action: () => { console.log('open') } },
-                        { id: 3, title: "Exit", action: () => { console.log('exit') } },
-                    ]
-                }
-            ]} />
+            <DropDownMenuBar menu={props.menu} />
 
 
             <div className="window-bar-spacer"></div>

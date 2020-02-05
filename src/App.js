@@ -6,17 +6,19 @@ import { Controlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/addon/edit/matchbrackets'
+import 'codemirror/addon/edit/closebrackets'
 import './editor.css'
+import getMenu from './assets/menu'
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
 
-import { open, compileAndRun, saveAs, compile } from './assets/crud'
 
 class App extends React.Component {
 
   constructor() {
     super();
     this.state = {
+      lineNumber: 0,
       terminalMessage: [],
       activeTabIndex: 0,
       tabs: [
@@ -90,40 +92,16 @@ class App extends React.Component {
     return (
       <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         <WindowBar
+          menu={getMenu({
+            activeTab: this.state.tabs[this.state.activeTabIndex],
+            append: this.append,
+            setFilename: this.setFilename,
+            addTab: this.addTab
+          })}
           setActiveTab={this.setActiveTab}
           tabs={this.state.tabs}
           activeTabIndex={this.state.activeTabIndex}
-          menu={[
-            {
-              title: "Save",
-              action: () => {
-                saveAs(this.state.tabs[this.state.activeTabIndex].data, (filename) => {
-                  this.setFilename(filename)
-                })
-              }
-            }, {
-              title: "Compile",
-              action: () => {
-                compile(this.state.tabs[this.state.activeTabIndex].filename, this.state.tabs[this.state.activeTabIndex].data, (filename) => {
-                  this.setState({ terminalMessage: [] })
-                  this.setFilename(filename);
-                }, this.append)
-              }
-            }, {
-              title: "Compile And Run",
-              action: () => {
-                compileAndRun(this.state.tabs[this.state.activeTabIndex].filename, this.state.tabs[this.state.activeTabIndex].data, (filename) => {
-                  this.setState({ terminalMessage: [] })
-                  this.setFilename(filename);
-                }, this.append)
-              }
-            }, {
-              title: "Run",
-              action: () => {
-                open(this.state.tabs[this.state.activeTabIndex].filename.replace(".cpp", ".exe"), this.append)
-              }
-            }
-          ]} />
+        />
         <Tabs tabs={this.state.tabs}
           activeTabIndex={this.state.activeTabIndex}
           addTab={this.addTab}
@@ -135,12 +113,19 @@ class App extends React.Component {
           indentWithTabs: true,
           indentUnit: 4,
           matchBrackets: true,
+          autoCloseBrackets: true
         }}
 
-          editorDidMount={e => { this.editor = e }} />
+          editorDidMount={e => {
+            this.editor = e
+            this.editor.on('cursorActivity', (e) => {
+              const cursor = e.getCursor();
+              this.setState({ lineNumber: cursor.line + 1 })
+            })
+          }} />
         <Terminal filename={this.state.tabs[this.state.activeTabIndex].filename}
           messages={this.state.terminalMessage} />
-        <StatusBar />
+        <StatusBar lineNumber={this.state.lineNumber} />
       </div>
     );
   }

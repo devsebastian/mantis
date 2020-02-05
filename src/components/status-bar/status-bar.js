@@ -10,6 +10,7 @@ class StatusBar extends React.Component {
         return (
             <div className="status-bar">
                 <b>MANTIS</b> | CODE
+                <div style={{display: "inline-block", paddingLeft: 12}}>{"Ln " + this.props.lineNumber}</div>
             </div>
         )
     }

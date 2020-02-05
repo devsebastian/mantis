@@ -18,7 +18,7 @@ class DropDownMenu extends React.Component {
         }
     }
 
-    onClickListener(action){
+    onClickListener(action) {
         action();
         this.toggleMenu();
     }
@@ -27,11 +27,20 @@ class DropDownMenu extends React.Component {
     render() {
         return (
             <div className="dd-wrapper">
-                <div className={this.props.activeIndex === this.props.pos ? "dd-header dd-header--activated" :"dd-header"} onClick={this.toggleMenu} onMouseOver={this.props.menuActivated ? this.toggleMenu : ""}>{this.props.title}</div>
+                <div className={this.props.activeIndex === this.props.pos ? "dd-header dd-header--activated" : "dd-header"} onClick={this.toggleMenu} onMouseOver={this.props.menuActivated ? this.toggleMenu : ""}>{this.props.title}</div>
                 {this.props.activeIndex === this.props.pos ?
                     <div className="dd-list-items-wrapper">
-                        {this.props.items.map(item =>
-                            <div className="dd-list-item" key={item.id} onClick={() => this.onClickListener(item.action)}><div>{item.title}</div><div>{item.shortcut}</div></div>)}
+                        {this.props.items.map((group, pos) =>
+                            <div key={pos} className="dd-menu-group">
+                                {group.map(item =>
+                                    <div
+                                        className="dd-list-item"
+                                        key={item.id}
+                                        onClick={() => this.onClickListener(item.action)}>
+                                        <div>{item.title}</div>
+                                        <div>{item.shortcut}</div>
+                                    </div>)}
+                            </div>)}
                     </div>
                     : <div></div>}
             </div>

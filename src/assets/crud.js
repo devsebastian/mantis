@@ -60,6 +60,18 @@ export function compileAndRun(filename, data, callback, write) {
     }
 }
 
+export function run(filename, data, callback, write) {
+    if (filename === undefined) {
+        saveAs(data, (filename) => {
+            if (typeof callback === 'function')
+                callback(filename)
+            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => open(filename.replace(".cpp", ".exe")), write)
+        })
+    } else {
+        open(filename.replace(".cpp", ".exe"))
+    }
+}
+
 export function compile(filename, data, callback, write) {
     if (filename === undefined) {
         saveAs(data, (filename) => {
