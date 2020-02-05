@@ -16,7 +16,7 @@
 .window-bar-icon {
     -webkit-user-select: none;
     -webkit-app-region: no-drag;
-    height: 30px;
+    height: 100%;
     padding: 10px 20px;
 }
 
