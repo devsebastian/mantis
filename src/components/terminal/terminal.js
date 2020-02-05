@@ -21,7 +21,7 @@ class Terminal extends React.Component {
 
     render() {
         return (
-            this.props.messages.length == 0 ? <div></div> :
+            this.props.messages.length === 0 ? <div></div> :
                 <div className="terminal">
                     <div id="resizer" onMouseDown={resize} >
                     </div>

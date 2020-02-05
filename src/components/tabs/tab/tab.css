@@ -1,3 +1,6 @@
+:root{
+    --tab-border-width: 1.5px
+}
 .tab {
     color: var(--text-secondary);
     height: 100%;
@@ -5,19 +8,20 @@
     -webkit-app-region: no-drag;
     -webkit-user-select: none;
     transition: all 0.1s ease;
-    border-bottom: 2px solid transparent;
+    border-bottom: var(--tab-border-width) solid transparent;
     cursor: pointer;
     display: inline-block;
 }
 
 .tab--selected{
     color: var(--text-primary);
-    border-bottom: 2px solid var(--operator);
+    border-color: var(--operator) !important;
 }
 
 
 .tab:hover{
     color: var(--text-primary);
+    border-color: var(--primary-light);
 }
 
 .tab div{

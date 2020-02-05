@@ -10,9 +10,7 @@ import './editor.css'
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
 
-
 import { open, compileAndRun, saveAs, compile } from './assets/crud'
-const {globalShortcut} = window.require('electron').remote;
 
 class App extends React.Component {
 
@@ -30,27 +28,6 @@ class App extends React.Component {
     }
     this.editor = null
 
-    globalShortcut.register('Ctrl+w', () => {
-      this.setState(oldState => {
-        var tabs = oldState.tabs
-        tabs.splice([oldState.activeTabIndex], 1);
-        return { tabs: tabs }
-      })
-    })
-
-    globalShortcut.register('Ctrl+n', () => {
-      this.addTab("untitled");
-      this.setState({ activeTabIndex: this.states.tabs.length - 1 })
-    })
-
-    globalShortcut.register('Ctrl+r', () => {
-      this.run();
-    })
-
-    globalShortcut.register('Shift+s', () => {
-      this.save();
-
-    })
     this.setActiveTab = this.setActiveTab.bind(this)
     this.addTab = this.addTab.bind(this)
     this.closeTab = this.closeTab.bind(this)
