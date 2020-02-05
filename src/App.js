@@ -18,7 +18,10 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      lineNumber: 0,
+      cm: {
+        line: 0,
+        ch: 0
+      },
       terminalMessage: [],
       activeTabIndex: 0,
       tabs: [
@@ -120,12 +123,17 @@ class App extends React.Component {
             this.editor = e
             this.editor.on('cursorActivity', (e) => {
               const cursor = e.getCursor();
-              this.setState({ lineNumber: cursor.line + 1 })
+              this.setState({
+                cm: {
+                  line: cursor.line + 1,
+                  ch: cursor.ch + 1
+                }
+              })
             })
           }} />
         <Terminal filename={this.state.tabs[this.state.activeTabIndex].filename}
           messages={this.state.terminalMessage} />
-        <StatusBar lineNumber={this.state.lineNumber} />
+        <StatusBar options={this.state.cm} />
       </div>
     );
   }
