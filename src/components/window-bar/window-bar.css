@@ -1,4 +1,3 @@
-
 .window-bar {
     background-color: var(--window-bar);
     width: 100%;
@@ -9,22 +8,31 @@
     -webkit-app-region: drag;
 }
 
-.window-bar-spacer {
+.window-bar__spacer {
     flex: 1;
 }
 
-.window-bar-icon {
+.window-bar__icon {
     -webkit-user-select: none;
     -webkit-app-region: no-drag;
     height: 100%;
     padding: 10px 20px;
 }
 
-.window-bar-icon--normal:hover {
+.window-bar__icon--normal:hover {
     background-color: var(--primary-light);
 }
 
-.window-bar-icon--close:hover {
+.window-bar__icon--close:hover {
     background-color: rgba(255, 0, 0, 0.836);
 }
 
+.window-bar__title{
+    font-size: 0.8em;
+    padding: 4px;
+    margin: 0px 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-secondary);
+}

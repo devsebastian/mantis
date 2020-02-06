@@ -13,7 +13,6 @@ class Editor extends React.Component {
         super()
     }
 
-
     render() {
         return (
             <CodeMirror

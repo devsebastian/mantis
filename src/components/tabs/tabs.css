@@ -1,12 +1,36 @@
-.tabs {
+.tabs-wrapper {
     padding-left: 32px;
     background-color: var(--primary);
     width: 100%;
     white-space: nowrap;
     flex-direction: row;
-    overflow: auto;
+    overflow: hidden;
+    display: flex;
 }
 
-.tabs::-webkit-scrollbar{
+.tabs-container{
+    display: flex;
+    flex: 1;
+    height: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+}
+
+.tabs-container::-webkit-scrollbar {
     height: 0px;
+}
+
+.tabs__spacer {
+    flex: 1;
+}
+
+.tabs-wrapper abbr {
+    height: 100%;
+    margin: 6px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.tabs-wrapper svg:hover path {
+    fill: var(--text-secondary);
 }

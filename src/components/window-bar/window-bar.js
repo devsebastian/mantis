@@ -26,12 +26,12 @@ function WindowBar(props) {
         <div className="window-bar">
             {/* <Menu menu={props.menu}  /> */}
             <DropDownMenuBar menu={props.menu} />
-
-
-            <div className="window-bar-spacer"></div>
-            <img className="window-bar-icon window-bar-icon--normal" onClick={minimizeWindow} src={minimise} />
-            <img className="window-bar-icon window-bar-icon--normal" onClick={maximizeWindow} src={maximise} />
-            <img className="window-bar-icon window-bar-icon--close" onClick={closeWindow} src={close} />
+            <div className="window-bar__spacer"></div>
+            <div className="window-bar__title">{props.title}</div>
+            <div className="window-bar__spacer"></div>
+            <img className="window-bar__icon window-bar__icon--normal" onClick={minimizeWindow} src={minimise} />
+            <img className="window-bar__icon window-bar__icon--normal" onClick={maximizeWindow} src={maximise} />
+            <img className="window-bar__icon window-bar__icon--close" onClick={closeWindow} src={close} />
 
         </div>
     )

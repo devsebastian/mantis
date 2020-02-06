@@ -16,7 +16,7 @@ class StatusBar extends React.Component {
                 <div className="status-bar__block" onClick={this.props.toggleTerminalVisibility}>
                     TERMINAL
                 </div>
-                <div className="status-bar__block" onClick={this.props.toggleTerminalVisibility}>
+                <div className="status-bar__block" >
                     Spaces: 4
                 </div>
             </div>
