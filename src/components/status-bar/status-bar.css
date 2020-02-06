@@ -5,8 +5,19 @@
     background-color: var(--primary);
     color: var(--text-secondary);
     font-size: 0.7em;
-    padding: 2px;
     padding-left: 12px;
     -webkit-user-select: none;
+    display: flex;
 
+}
+.status-bar__block{
+    display: inline-block;
+    cursor: pointer;
+    flex: 1;
+    height: 100%;
+    padding: 3px 6px;
+}
+
+.status-bar__block:hover{
+    background-color: var(--primary-light);
 }

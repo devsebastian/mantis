@@ -9,8 +9,16 @@ class StatusBar extends React.Component {
     render() {
         return (
             <div className="status-bar">
-                <b>MANTIS</b> | CODE
-                <div style={{ display: "inline-block", paddingLeft: 12 }}>{"Ln " + this.props.options.line + ", Col " + this.props.options.ch}</div>
+                <div className="status-bar__block"> <b>MANTIS</b> | CODE</div>
+                <div className="status-bar__block">
+                    {"Ln " + this.props.options.line + ", Col " + this.props.options.ch}
+                </div>
+                <div className="status-bar__block" onClick={this.props.toggleTerminalVisibility}>
+                    TERMINAL
+                </div>
+                <div className="status-bar__block" onClick={this.props.toggleTerminalVisibility}>
+                    Spaces: 4
+                </div>
             </div>
         )
     }
