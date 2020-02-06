@@ -7,6 +7,8 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/addon/edit/matchbrackets'
 import 'codemirror/addon/edit/closebrackets'
+import 'codemirror/addon/lint/coffeescript-lint'
+import 'codemirror/addon/lint/lint'
 import './editor.css'
 import getMenu from './assets/menu'
 import Tabs from './components/tabs/tabs';
@@ -22,6 +24,7 @@ class App extends React.Component {
         line: 0,
         ch: 0
       },
+      terminalIsOpen: false,
       terminalMessage: [],
       activeTabIndex: 0,
       tabs: [
@@ -41,6 +44,8 @@ class App extends React.Component {
     this.append = this.append.bind(this)
     this.write = this.write.bind(this)
     this.setFilename = this.setFilename.bind(this)
+    this.clearTerminal = this.clearTerminal.bind(this);
+    this.toggleTerminalVisibility =this.toggleTerminalVisibility.bind(this)
   }
 
   write(message) {
@@ -91,6 +96,14 @@ class App extends React.Component {
     })
   }
 
+  clearTerminal() {
+    this.setState({ terminalMessage: [] })
+  }
+
+  toggleTerminalVisibility() {
+    this.setState(oldState => { return { terminalIsOpen: !oldState.terminalIsOpen } })
+  }
+
   render() {
     return (
       <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
@@ -99,7 +112,8 @@ class App extends React.Component {
             activeTab: this.state.tabs[this.state.activeTabIndex],
             append: this.append,
             setFilename: this.setFilename,
-            addTab: this.addTab
+            addTab: this.addTab,
+            clearTerminal: this.clearTerminal
           })}
           setActiveTab={this.setActiveTab}
           tabs={this.state.tabs}
@@ -116,6 +130,7 @@ class App extends React.Component {
           indentWithTabs: true,
           indentUnit: 4,
           matchBrackets: true,
+          lint: true,
           autoCloseBrackets: true
         }}
 
@@ -131,9 +146,11 @@ class App extends React.Component {
               })
             })
           }} />
-        <Terminal filename={this.state.tabs[this.state.activeTabIndex].filename}
+        <Terminal
+          terminalIsOpen={this.state.terminalIsOpen}
+          filename={this.state.tabs[this.state.activeTabIndex].filename}
           messages={this.state.terminalMessage} />
-        <StatusBar options={this.state.cm} />
+        <StatusBar options={this.state.cm} toggleTerminalVisibility={this.toggleTerminalVisibility} />
       </div>
     );
   }
