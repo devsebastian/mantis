@@ -29,7 +29,7 @@ class DropDownMenu extends React.Component {
             <div className="dd-wrapper">
                 <div className={this.props.activeIndex === this.props.pos ? "dd-header dd-header--activated" : "dd-header"} onClick={this.toggleMenu} onMouseOver={this.props.menuActivated ? this.toggleMenu : ""}>{this.props.title}</div>
                 {this.props.activeIndex === this.props.pos ?
-                    <div className="dd-list-items-wrapper">
+                    <div className="dd-menu-groups-wrapper">
                         {this.props.items.map((group, pos) =>
                             <div key={pos} className="dd-menu-group">
                                 {group.map(item =>

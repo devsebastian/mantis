@@ -44,7 +44,7 @@ class DropDownMenuBar extends React.Component {
     
     render() {
         return (
-            <div className="dd-bar-wrapper" ref={this.setWrapperRef}>
+            <div className="dd-menu-bar-wrapper" ref={this.setWrapperRef}>
                 {this.props.menu.map((menu, pos) =>
                     <DropDownMenu
                         pos={pos}

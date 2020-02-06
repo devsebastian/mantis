@@ -35,7 +35,7 @@
     color: var(--accent)
 }
 
-.dd-list-items-wrapper {
+.dd-menu-groups-wrapper {
     background-color: var(--primary);
     width: 280px;
     padding: 8px;
