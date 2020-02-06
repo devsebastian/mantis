@@ -1,6 +1,6 @@
 
 .window-bar {
-    background-color: var(--primary-dark);
+    background-color: var(--window-bar);
     width: 100%;
     height: 30px;
     display: flex;
