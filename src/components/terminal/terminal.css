@@ -5,17 +5,28 @@
     flex-direction: column;
 }
 
-.resizable{
+.terminal__body{
     border-top: 1px solid var(--primary-light);
     padding: 12px;
     overflow: auto;
     flex: 1;
+    height: 120px;
     color: var(--text-secondary);
     font-size: 0.9em;
+}
+
+.terminal__title{
+    font-size: 0.9em;
+    margin-bottom: 12px;
 }
 
 #resizer{
     cursor: row-resize;
     height: 5px;
     background-color: var(--primary);
+}
+
+.terminal__message::before{
+    content: " - ";
+    color: var(--accent);
 }
