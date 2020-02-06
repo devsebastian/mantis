@@ -3,8 +3,6 @@ import './window-bar.css'
 import minimise from '../../assets/minimise.svg'
 import maximise from '../../assets/maximise.svg'
 import close from '../../assets/close.svg'
-import Menu from '../menu/menu'
-import DropDownMenu from '../drop-down-menu-bar/drop-down-menu/drop-down-menu'
 import DropDownMenuBar from '../drop-down-menu-bar/drop-down-menu-bar'
 const { remote } = window.require('electron')
 
