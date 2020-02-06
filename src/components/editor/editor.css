@@ -2,6 +2,10 @@
     --primary: #272822;
     --primary-light: #49483E;
     --primary-dark: #1b1b17;
+
+    --window-bar: #1e1f1c;
+    --status-bar: #;
+
     --string: #E6DB74;
     --number: #AE81FF;
     --operator: #F92672;
@@ -99,3 +103,8 @@
 .CodeMirror-cursor{
     border-left: 1px solid var(--cursor);
 }
+
+.CodeMirror-line{
+    height: 20px !important;
+}
+

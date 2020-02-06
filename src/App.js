@@ -2,17 +2,10 @@ import React from 'react';
 import './App.css';
 import WindowBar from './components/window-bar/window-bar'
 import StatusBar from './components/status-bar/status-bar';
-import { Controlled as CodeMirror } from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/clike/clike'
-import 'codemirror/addon/edit/matchbrackets'
-import 'codemirror/addon/edit/closebrackets'
-import 'codemirror/addon/lint/coffeescript-lint'
-import 'codemirror/addon/lint/lint'
-import './editor.css'
 import getMenu from './assets/menu'
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
+import Editor from './components/editor/editor';
 
 
 class App extends React.Component {
@@ -28,11 +21,8 @@ class App extends React.Component {
       terminalMessage: [],
       activeTabIndex: 0,
       tabs: [
-        { title: "Codeforces_69A", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },
-        { title: "Dev Sebastian", data: "class Joe Sebastian{\n\tint num=12\n}" },
-        { title: "HackerEarth_1A" },
-        { title: "CodeChef_215B" },
-        { title: "Codeforces_256B" }]
+        { title: "untitled", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },
+      ]
     }
     this.editor = null
 
@@ -45,7 +35,7 @@ class App extends React.Component {
     this.write = this.write.bind(this)
     this.setFilename = this.setFilename.bind(this)
     this.clearTerminal = this.clearTerminal.bind(this);
-    this.toggleTerminalVisibility =this.toggleTerminalVisibility.bind(this)
+    this.toggleTerminalVisibility = this.toggleTerminalVisibility.bind(this)
   }
 
   write(message) {
@@ -125,31 +115,18 @@ class App extends React.Component {
           closeTab={this.closeTab}
           setActiveTab={this.setActiveTab} />
         {/* <Editor setTabContent={this.setTabContent} data={this.state.tabs[this.state.activeTabIndex].data} /> */}
-        <CodeMirror onBeforeChange={(editor, data, value) => { this.setTabContent(value) }} value={this.state.tabs[this.state.activeTabIndex].data} options={{
-          lineNumbers: true, mode: "text/x-c++src",
-          indentWithTabs: true,
-          indentUnit: 4,
-          matchBrackets: true,
-          lint: true,
-          autoCloseBrackets: true
-        }}
-
-          editorDidMount={e => {
-            this.editor = e
-            this.editor.on('cursorActivity', (e) => {
-              const cursor = e.getCursor();
-              this.setState({
-                cm: {
-                  line: cursor.line + 1,
-                  ch: cursor.ch + 1
-                }
-              })
-            })
-          }} />
+        <Editor setTabContent={this.setTabContent}
+          value={this.state.tabs[this.state.activeTabIndex].data} />
         <Terminal
           terminalIsOpen={this.state.terminalIsOpen}
           filename={this.state.tabs[this.state.activeTabIndex].filename}
-          messages={this.state.terminalMessage} />
+          messages={this.state.terminalMessage}
+          setLine={(line, ch) => this.setState({
+            cm: {
+              line: line,
+              ch: ch
+            }
+          })} />
         <StatusBar options={this.state.cm} toggleTerminalVisibility={this.toggleTerminalVisibility} />
       </div>
     );
