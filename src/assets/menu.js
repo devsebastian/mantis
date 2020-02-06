@@ -58,6 +58,7 @@ function getMenu(options) {
                 [
                     {
                         id: "compile", title: "Compile", shortcut: "F9", action: () => {
+                            options.clearTerminal()
                             compile(options.activeTab.filename, options.activeTab.data, (filename) => {
                                 options.setFilename(filename)
                             }, options.append)
@@ -65,6 +66,7 @@ function getMenu(options) {
                     },
                     {
                         id: "run", title: "Run", shortcut: "F10", action: () => {
+                            options.clearTerminal()
                             run(options.activeTab.filename, options.activeTab.data, (filename) => {
                                 options.setFilename(filename)
                             }, options.append)
@@ -72,6 +74,7 @@ function getMenu(options) {
                     },
                     {
                         id: "compileandrun", title: "Compile and Run", shortcut: "F11", action: () => {
+                            options.clearTerminal()
                             compileAndRun(options.activeTab.filename, options.activeTab.data, (filename) => {
                                 options.setFilename(filename)
                             }, options.append)
@@ -85,6 +88,18 @@ function getMenu(options) {
                 [
                     { id: "clean", title: "Clean", shortcut: "Ctrl+C", action: () => { console.log('new') } },
                     { id: "paste", title: "Paste", shortcut: "Ctrl+V", action: () => { console.log('new') } },
+                ]
+            ]
+        },{
+            title: "Help",
+            items: [
+                [
+                    {id: "documentation", title: "Documentation", action: ()=>{}},
+                    {id: "releasenotes", title: "Release Notes", action: ()=>{}}
+                ],[
+                    {id: "about", title: "About", action: ()=>{}}
+                ],[
+                    {id: "check for updates", title: "Check for Updates", action: ()=>{}}
                 ]
             ]
         }
