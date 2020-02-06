@@ -24,13 +24,11 @@ class App extends React.Component {
         { title: "untitled", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },
       ]
     }
-    this.editor = null
 
     this.setActiveTab = this.setActiveTab.bind(this)
     this.addTab = this.addTab.bind(this)
     this.closeTab = this.closeTab.bind(this)
     this.setTabContent = this.setTabContent.bind(this)
-
     this.append = this.append.bind(this)
     this.write = this.write.bind(this)
     this.setFilename = this.setFilename.bind(this)
@@ -98,6 +96,7 @@ class App extends React.Component {
     return (
       <div style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         <WindowBar
+          title={this.state.tabs[this.state.activeTabIndex].filename}
           menu={getMenu({
             activeTab: this.state.tabs[this.state.activeTabIndex],
             append: this.append,
@@ -114,19 +113,20 @@ class App extends React.Component {
           addTab={this.addTab}
           closeTab={this.closeTab}
           setActiveTab={this.setActiveTab} />
-        {/* <Editor setTabContent={this.setTabContent} data={this.state.tabs[this.state.activeTabIndex].data} /> */}
-        <Editor setTabContent={this.setTabContent}
-          value={this.state.tabs[this.state.activeTabIndex].data} />
-        <Terminal
-          terminalIsOpen={this.state.terminalIsOpen}
-          filename={this.state.tabs[this.state.activeTabIndex].filename}
-          messages={this.state.terminalMessage}
+        <Editor
+          setTabContent={this.setTabContent}
+          value={this.state.tabs[this.state.activeTabIndex].data}
           setLine={(line, ch) => this.setState({
             cm: {
               line: line,
               ch: ch
             }
           })} />
+        <Terminal
+          terminalIsOpen={this.state.terminalIsOpen}
+          filename={this.state.tabs[this.state.activeTabIndex].filename}
+          messages={this.state.terminalMessage}
+        />
         <StatusBar options={this.state.cm} toggleTerminalVisibility={this.toggleTerminalVisibility} />
       </div>
     );
