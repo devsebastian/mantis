@@ -10,6 +10,7 @@ class StatusBar extends React.Component {
         return (
             <div className="status-bar">
                 <div className="status-bar__block"> <b>MANTIS</b> | CODE</div>
+                <div className="status-bar__spacer"></div>
                 <div className="status-bar__block">
                     {"Ln " + this.props.options.line + ", Col " + this.props.options.ch}
                 </div>

@@ -5,7 +5,6 @@
     background-color: var(--primary);
     color: var(--text-secondary);
     font-size: 0.7em;
-    padding-left: 12px;
     -webkit-user-select: none;
     display: flex;
 
@@ -13,9 +12,12 @@
 .status-bar__block{
     display: inline-block;
     cursor: pointer;
-    flex: 1;
     height: 100%;
-    padding: 3px 6px;
+    padding: 3px 12px;
+}
+
+.status-bar__spacer{
+    flex: 1;
 }
 
 .status-bar__block:hover{
