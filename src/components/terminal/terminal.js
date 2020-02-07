@@ -27,9 +27,9 @@ class Terminal extends React.Component {
                     </div>
                     <div className="terminal__body">
                         <div className="terminal__title">COMPILE LOG</div>
-                        {this.props.messages.map((m, pos) => <div className="terminal__message" key={pos}>{m}</div>)}
+                        {this.props.messages.map((m, pos) => <div className="terminal__message" key={pos}><span style={{color: "var(--accent)"}}>{this.props.filename.split('\\').pop() + "-"}</span><span>{m.replace(this.props.filename+":", "")}</span></div>)}
                     </div>
-                </div> : <div style={{display: "none"}}></div>
+                </div> : <div style={{ display: "none" }}></div>
         )
     }
 }

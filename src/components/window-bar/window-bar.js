@@ -4,6 +4,7 @@ import minimise from '../../assets/minimise.svg'
 import maximise from '../../assets/maximise.svg'
 import close from '../../assets/close.svg'
 import DropDownMenuBar from '../drop-down-menu-bar/drop-down-menu-bar'
+
 const { remote } = window.require('electron')
 
 function closeWindow() {
