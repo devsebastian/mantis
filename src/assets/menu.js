@@ -1,4 +1,4 @@
-import { open, run, compileAndRun, saveAs, compile } from './crud'
+import { open, run, compileAndRun, saveAs, compile, openDirectory } from './crud'
 function getMenu(options) {
     return [
         {
@@ -6,7 +6,8 @@ function getMenu(options) {
             items: [
                 [
                     { id: "new", title: "New", shortcut: "Ctrl+N", action: () => options.addTab('Untitled') },
-                    { id: "open", title: "Open", shortcut: "Ctrl+O", action: () => open(options.addTab) },
+                    { id: "openfile", title: "Open File", shortcut: "Ctrl+O", action: () => open(options.addTabs) },
+                    { id: "opendirectory", title: "Open Directory", shortcut: "Ctrl+K Ctrl+O", action: () => openDirectory(options.addTabs) },
                     { id: "exit", title: "Exit", action: () => { } },
                 ],
                 [
