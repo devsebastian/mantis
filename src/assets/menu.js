@@ -6,7 +6,7 @@ function getMenu(options) {
             items: [
                 [
                     { id: "new", title: "New", shortcut: "Ctrl+N", action: () => options.addTab('Untitled') },
-                    { id: "open", title: "Open", shortcut: "Ctrl+O", action: () => open },
+                    { id: "open", title: "Open", shortcut: "Ctrl+O", action: () => open(options.addTab) },
                     { id: "exit", title: "Exit", action: () => { } },
                 ],
                 [
