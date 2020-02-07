@@ -1,4 +1,4 @@
-.terminal{
+.terminal-wrapper {
     max-height: 70%;
     background-color: var(--primary);
     height: 220px;
@@ -6,32 +6,44 @@
     flex-direction: column;
 }
 
-.terminal__body{
-    border-top: 1px solid var(--primary-light);
-    padding: 12px;
-    overflow: auto;
+.terminal {
+    overflow: hidden;
     flex: 1;
     color: var(--terminal-text);
     font-size: 0.9em;
 }
 
-.terminal__title{
+.terminal__title {
     font-size: 0.9em;
     margin-bottom: 12px;
+    padding: 7px 12px 0px 12px;
     color: var(--text-secondary);
 }
 
-#resizer{
+.terminal__body {
+    padding: 0px 12px;
+    height: 100%;
+    overflow: auto;
+}
+
+#resizer {
     cursor: row-resize;
     height: 5px;
+    border-top: 1px solid var(--primary-light);
+    position: relative;
     background-color: var(--primary);
 }
 
-.terminal__message{
+.terminal__message {
     margin-left: 10px;
     line-height: 1.5em;
 }
+
 /* .terminal__message::before{
     content: " - ";
     color: var(--accent);
 } */
+
+.terminal__message--header {
+    color: var(--accent);
+}

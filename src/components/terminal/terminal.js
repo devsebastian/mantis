@@ -8,7 +8,7 @@ function resize(e) {
 }
 
 function changeHeight(e) {
-    var target = document.getElementsByClassName("terminal")[0];
+    var target = document.getElementsByClassName("terminal-wrapper")[0];
     var height = target.getBoundingClientRect().bottom - e.pageY + 'px';
     target.style.height = height;
 }
@@ -22,12 +22,21 @@ class Terminal extends React.Component {
     render() {
         return (
             this.props.terminalIsOpen ?
-                <div className="terminal" >
-                    <div id="resizer" onMouseDown={resize} >
-                    </div>
-                    <div className="terminal__body">
+                <div className="terminal-wrapper" >
+                    <div id="resizer" onMouseDown={resize} ></div>
+                    <div className="terminal">
                         <div className="terminal__title">COMPILE LOG</div>
-                        {this.props.messages.map((m, pos) => <div className="terminal__message" key={pos}><span style={{color: "var(--accent)"}}>{this.props.filename.split('\\').pop() + "-"}</span><span>{m.replace(this.props.filename+":", "")}</span></div>)}
+                        <div className="terminal__body">
+                            {
+                                this.props.messages.map(
+                                    (m, pos) =>
+                                        <div className="terminal__message" key={pos}>
+                                            <span className="terminal__message--header">{this.props.filename.split('\\').pop() + "::"}</span>
+                                            <span>{m.replace(this.props.filename + ":", "")}</span>
+                                        </div>
+                                )
+                            }
+                        </div>
                     </div>
                 </div> : <div style={{ display: "none" }}></div>
         )
