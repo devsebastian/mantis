@@ -38,32 +38,6 @@
 
 }
 
-.react-codemirror2 {
-    flex: 1;
-    width: 100%;
-    overflow: hidden;
-}
-
-.CodeMirror {
-    width: 100%;
-    height: 100%;
-    padding-top: 12px;
-    color: var(--text-primary);
-    font-size: 0.96em;
-    background-color: var(--primary);
-    font-family: 'consolas', sans-serif;
-    /* TODO change this to a local font */
-}
-
-.CodeMirror-selected {
-    background-color: var(--line--active) !important;
-}
-
-.CodeMirror-matchingbracket {
-    outline: 1px solid rgba(255, 255, 255, 0.397);
-    color: var(--text-primary) !important;
-}
-
 .cm-type {
     color: var(--type) !important;
 }
@@ -100,39 +74,57 @@
     color: var(--number) !important;
 }
 
-.CodeMirror-linenumbers {
+
+.react-codemirror2 {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.CodeMirror {
+    width: 100%;
+    height: 100%;
+    padding-top: 12px;
+    color: var(--text-primary);
+    font-size: 0.96em;
     background-color: var(--primary);
-    margin-right: -1px;
+    font-family: 'consolas', sans-serif;
+    /* TODO change this to a local font */
 }
 
-.CodeMirror-gutters {
-    background: var(--primary);
-    border: 0;
+.CodeMirror-selected {
+    background-color: var(--line--active) !important;
 }
 
-.CodeMirror-lines {
-    padding-left: 12px;
-}
-
-.CodeMirror-linenumber {
-    margin-left: -12px;
+.CodeMirror-matchingbracket {
+    outline: 1px solid rgba(255, 255, 255, 0.397);
+    color: var(--text-primary) !important;
 }
 
 .CodeMirror-cursor {
-    border-left: 1px solid var(--cursor);
+    border-left: 1px solid var(--cursor) !important;
 }
 
 .CodeMirror-line {
     height: 20px !important;
+    padding-left: 0px !important;
 }
 
 .CodeMirror-activeline-background{
+    border: 0;
     background-color: var(--line--active) !important;
+}
+
+.CodeMirror-gutters {
+    background-color: var(--primary) !important;
+    border: 0;
+    padding-left: 12px !important;
+    width: 55px !important;
 }
 
 .cm-tab::before{
     position: absolute;
-    color: var(--primary-light);
+    color: var(--primary-light) !important;
     content: "....";
     vertical-align: middle;
     margin-top: -0.2em;
