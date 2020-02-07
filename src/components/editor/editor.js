@@ -5,6 +5,8 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/clike/clike'
 import 'codemirror/addon/edit/matchbrackets'
 import 'codemirror/addon/edit/closebrackets'
+import 'codemirror/addon/selection/active-line'
+import 'codemirror/addon/fold/foldcode'
 import './editor.css'
 
 class Editor extends React.Component {
@@ -19,14 +21,17 @@ class Editor extends React.Component {
                 onBeforeChange={(editor, data, value) => { this.props.setTabContent(value) }}
                 value={this.props.value}
                 options={{
-                    lineNumbers: true,
                     mode: "text/x-c++src",
                     indentWithTabs: true,
+                    smartIndent: true,
                     indentUnit: 4,
                     matchBrackets: true,
-                    foldGutter: true,
+                    foldGutter: true,   
                     lint: true,
-                    autoCloseBrackets: true
+                    styleActiveLine: true,
+                    autoCloseBrackets: true,
+                    lineNumbers: true,
+                    foldGutter: true
                 }}
 
                 editorDidMount={e => {
