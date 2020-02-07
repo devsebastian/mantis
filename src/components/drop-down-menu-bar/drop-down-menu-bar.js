@@ -48,6 +48,7 @@ class DropDownMenuBar extends React.Component {
                 {this.props.menu.map((menu, pos) =>
                     <DropDownMenu
                         pos={pos}
+                        key={pos}
                         menuActivated={this.state.menuActivated}
                         setMenuActivity={this.setMenuActivity}
                         activeIndex={this.state.activeIndex}
