@@ -2,21 +2,40 @@
     --primary: #272822;
     --primary-light: #49483E;
     --primary-dark: #1b1b17;
-
     --window-bar: #1e1f1c;
     --status-bar: #;
-
     --string: #E6DB74;
     --number: #AE81FF;
     --operator: #F92672;
     --def: #A6E22E;
-    --type:#66D9EF;
+    --type: #66D9EF;
     --comment: #75715E;
     --text-primary: #e3e5ea;
     --text-secondary: #aaabaf;
     --cursor: #fff;
-
     --accent: #F92672;
+    /*active-line*/
+    --line--active: #3e3d32;
+    /*  drop down menu  */
+    --dd--active-background: #49483E;
+    --dd--active-text: #fff;
+    /*  tabs-wrapper*/
+    --tabs-wrapper: #272822;
+    /*  tab */
+    --tab-background--active: #272822;
+    --tab-text--active: #fff;
+    --tab-border--active: #F92672;
+    --tab-background--hover: #272822;
+    --tab-text--hover: #fff;
+    --tab-border--hover: #49483E;
+    --tab-background: #272822;
+    --tab-text: #aaabaf;
+    --tab-border: #F92672;
+    /*divider*/
+    --divider: #49483E;
+    /*terminal*/
+    --terminal-text: #e3e5ea;
+
 }
 
 .react-codemirror2 {
@@ -25,19 +44,19 @@
     overflow: hidden;
 }
 
-.CodeMirror{
+.CodeMirror {
     width: 100%;
     height: 100%;
     padding-top: 12px;
     color: var(--text-primary);
     font-size: 0.96em;
-    background-color:  var(--primary);
+    background-color: var(--primary);
     font-family: 'consolas', sans-serif;
     /* TODO change this to a local font */
 }
 
 .CodeMirror-selected {
-    background-color: #49483E !important;
+    background-color: var(--line--active) !important;
 }
 
 .CodeMirror-matchingbracket {
@@ -86,7 +105,7 @@
     margin-right: -1px;
 }
 
-.CodeMirror-gutters{
+.CodeMirror-gutters {
     background: var(--primary);
     border: 0;
 }
@@ -99,11 +118,23 @@
     margin-left: -12px;
 }
 
-.CodeMirror-cursor{
+.CodeMirror-cursor {
     border-left: 1px solid var(--cursor);
 }
 
-.CodeMirror-line{
+.CodeMirror-line {
     height: 20px !important;
 }
 
+.CodeMirror-activeline-background{
+    background-color: var(--line--active) !important;
+}
+
+.cm-tab::before{
+    position: absolute;
+    color: var(--primary-light);
+    content: "....";
+    vertical-align: middle;
+    margin-top: -0.2em;
+    z-index: -1;
+}
