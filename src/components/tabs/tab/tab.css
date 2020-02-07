@@ -2,7 +2,7 @@
     --tab-border-width: 1.5px
 }
 .tab {
-    color: var(--text-secondary);
+    color: var(--tab-text);
     height: 100%;
     font-size: 0.9em;
     -webkit-app-region: no-drag;
@@ -14,14 +14,14 @@
 }
 
 .tab--selected{
-    color: var(--text-primary);
-    border-color: var(--operator) !important;
+    color: var(--tab-text--active);
+    border-color: var(--tab-border--active) !important;
 }
 
 
 .tab:hover{
-    color: var(--text-primary);
-    border-color: var(--primary-light);
+    color: var(--tab-text--hover);
+    border-color: var(--tab-border--hover);
 }
 
 .tab div{

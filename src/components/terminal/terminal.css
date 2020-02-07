@@ -1,6 +1,7 @@
 .terminal{
     max-height: 70%;
     background-color: var(--primary);
+    height: 220px;
     display: flex;
     flex-direction: column;
 }
@@ -10,14 +11,14 @@
     padding: 12px;
     overflow: auto;
     flex: 1;
-    height: 120px;
-    color: var(--text-secondary);
+    color: var(--terminal-text);
     font-size: 0.9em;
 }
 
 .terminal__title{
     font-size: 0.9em;
     margin-bottom: 12px;
+    color: var(--text-secondary);
 }
 
 #resizer{
@@ -26,7 +27,11 @@
     background-color: var(--primary);
 }
 
-.terminal__message::before{
+.terminal__message{
+    margin-left: 10px;
+    line-height: 1.5em;
+}
+/* .terminal__message::before{
     content: " - ";
     color: var(--accent);
-}
+} */

@@ -1,7 +1,7 @@
 .status-bar{
     height: 25px;
     width: 100%;
-    border-top: 1px solid var(--primary-light);
+    border-top: 1px solid var(--divider);
     background-color: var(--primary);
     color: var(--text-secondary);
     font-size: 0.7em;
