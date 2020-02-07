@@ -29,7 +29,56 @@ export function saveAs(data, callback) {
 }
 
 export function open(callback) {
+    const options = {
+        title: "Open",
+        properties: ['multiSelections'],
+        defaultPath: app.getPath('desktop'),
+        buttonLabel: "Open",
+        filters: [
+            { name: 'C++ source files', extensions: ['cpp', 'cc', 'cxx', 'c++', 'cp'] },
+            { name: 'C source files', extensions: ['c'] },
+            { name: 'Header files', extensions: ['h', 'hpp', 'rh', 'hh'] },
+            { name: 'Resource files', extensions: ['rc'] },
+            { name: 'All Files', extensions: ['*'] }
+        ]
+    }
     dialog.showOpenDialog(WIN, options).then((result) => {
+        if (result.filePaths === undefined) {
+            return
+        };
+        if (typeof callback === 'function') {
+            var files = [];
+            for (var file of result.filePaths) {
+                fs.readFile(file, (err, data) => {
+                    if (err) {
+                        console.log("An error ocurred creating the file: " + err.message)
+                        return
+                    }
+                    files.push({ title: file.split("\\").pop(), data: data.toString(), filename: file})
+                })
+            }
+            callback(files)
+        }
+    }).catch(err => console.log(err))
+}
+
+
+export function openDirectory(callback) {
+    const options = {
+        title: "Save",
+        properties: ['multiSelections'],
+        defaultPath: app.getPath('desktop'),
+        buttonLabel: "Open",
+        filters: [
+            { name: 'C++ source files', extensions: ['cpp', 'cc', 'cxx', 'c++', 'cp'] },
+            { name: 'C source files', extensions: ['c'] },
+            { name: 'Header files', extensions: ['h', 'hpp', 'rh', 'hh'] },
+            { name: 'Resource files', extensions: ['rc'] },
+            { name: 'All Files', extensions: ['*'] }
+        ]
+    }
+    dialog.showOpenDialog(WIN, options).then((result) => {
+        console.log(result)
         if (result.filePaths === undefined) {
             return
         };
@@ -40,7 +89,7 @@ export function open(callback) {
             }
             if (typeof callback === 'function') {
                 var t = result.filePaths[0].split("\\");
-                t = t[t.length -1]
+                t = t[t.length - 1]
                 callback(t, data.toString(), result.filePaths[0]);
             }
         });
