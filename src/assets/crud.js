@@ -6,29 +6,49 @@ const dialog = remote.dialog
 const WIN = remote.getCurrentWindow()
 var fs = window.require('fs');
 
-export function saveAs(data, callback) {
-    let options = {
-        title: "Save",
-        defaultPath: app.getPath('desktop'),
-        buttonLabel: "Save",
-        filters: [
-            { name: 'C++ source files', extensions: ['cpp', 'cc', 'cxx', 'c++', 'cp'] },
-            { name: 'C source files', extensions: ['c'] },
-            { name: 'Header files', extensions: ['h', 'hpp', 'rh', 'hh'] },
-            { name: 'Resource files', extensions: ['rc'] },
-            { name: 'All Files', extensions: ['*'] }
-        ]
-    }
+const options = {
+    title: "Save",
+    defaultPath: app.getPath('desktop'),
+    buttonLabel: "Save",
+    filters: [
+        { name: 'C++ source files', extensions: ['cpp', 'cc', 'cxx', 'c++', 'cp'] },
+        { name: 'C source files', extensions: ['c'] },
+        { name: 'Header files', extensions: ['h', 'hpp', 'rh', 'hh'] },
+        { name: 'Resource files', extensions: ['rc'] },
+        { name: 'All Files', extensions: ['*'] }
+    ]
+}
 
-    dialog.showSaveDialog(WIN, options, (filename) => {
-        if (filename === undefined) {
+export function saveAs(data, callback) {
+    dialog.showSaveDialog(WIN, options).then((result) => {
+        if (result.filePath === undefined) {
             return;
         }
-        save(filename, data, callback)
-    })
+        save(result.filePath, data, callback)
+    }).catch(err => alert('there was an error saving the file.'))
+}
+
+export function open(callback) {
+    dialog.showOpenDialog(WIN, options).then((result) => {
+        if (result.filePaths === undefined) {
+            return
+        };
+        fs.readFile(result.filePaths[0], (err, data) => {
+            if (err) {
+                console.log("An error ocurred creating the file: " + err.message)
+                return
+            }
+            if (typeof callback === 'function') {
+                var t = result.filePaths[0].split("\\");
+                t = t[t.length -1]
+                callback(t, data.toString(), result.filePaths[0]);
+            }
+        });
+    }).catch(err => alert('there was an error opening the file.\n\n' + err))
 }
 
 export function save(filename, data, callback) {
+    console.log('save called')
     fs.writeFile(filename, data, (err) => {
         if (err) {
             console.log("An error ocurred creating the file: " + err.message)
@@ -40,7 +60,7 @@ export function save(filename, data, callback) {
     });
 }
 
-export function open(filename, write) {
+export function execute(filename, write) {
     run_script("start", [filename], null, write);
 }
 
@@ -49,13 +69,13 @@ export function compileAndRun(filename, data, callback, write) {
         saveAs(data, (filename) => {
             if (typeof callback === 'function')
                 callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => open(filename.replace(".cpp", ".exe")), write)
+            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => execute(filename.replace(".cpp", ".exe")), write)
         })
     } else {
         save(filename, data, (filename) => {
             if (typeof callback === 'function')
                 callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => open(filename.replace(".cpp", ".exe")), write)
+            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => execute(filename.replace(".cpp", ".exe")), write)
         })
     }
 }
@@ -65,10 +85,10 @@ export function run(filename, data, callback, write) {
         saveAs(data, (filename) => {
             if (typeof callback === 'function')
                 callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => open(filename.replace(".cpp", ".exe")), write)
+            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => execute(filename.replace(".cpp", ".exe")), write)
         })
     } else {
-        open(filename.replace(".cpp", ".exe"))
+        execute(filename.replace(".cpp", ".exe"))
     }
 }
 
