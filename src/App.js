@@ -6,30 +6,31 @@ import getMenu from './assets/menu'
 import Tabs from './components/tabs/tabs';
 import Terminal from './components/terminal/terminal';
 import Editor from './components/editor/editor';
+import Explorer from './components/explorer/explorer';
 
 const Store = window.require('electron-store')
 
 class App extends React.Component {
 
-  componentDidMount() {
-    const store = new Store();
-    this.setState({
-      activeTabIndex: store.get('activeTabIndex'),
-      terminalIsOpen: store.get('terminalIsOpen'),
-      terminalMessage: store.get('terminalMessage'),
-      tabs: store.get('tabs'),
-      cm: store.get('cm')
-    })
+  // componentDidMount() {
+  //   const store = new Store();
+  //   this.setState({
+  //     activeTabIndex: store.get('activeTabIndex'),
+  //     terminalIsOpen: store.get('terminalIsOpen'),
+  //     terminalMessage: store.get('terminalMessage'),
+  //     tabs: store.get('tabs'),
+  //     cm: store.get('cm')
+  //   })
 
-    window.addEventListener('unload', (e) => {
-      var store = new Store();
-      store.set('activeTabIndex', this.state.activeTabIndex)
-      store.set('terminalIsOpen', this.state.terminalIsOpen)
-      store.set('terminalMessage', this.state.terminalMessage)
-      store.set('tabs', this.state.tabs)
-      store.set('cm', this.state.cm)
-    })
-  }
+  //   window.addEventListener('unload', (e) => {
+  //     var store = new Store();
+  //     store.set('activeTabIndex', this.state.activeTabIndex)
+  //     store.set('terminalIsOpen', this.state.terminalIsOpen)
+  //     store.set('terminalMessage', this.state.terminalMessage)
+  //     store.set('tabs', this.state.tabs)
+  //     store.set('cm', this.state.cm)
+  //   })
+  // }
 
 
   constructor() {
@@ -45,6 +46,9 @@ class App extends React.Component {
       tabs: [
         { title: "untitled" },
       ],
+      files: [
+
+      ]
       // panes: [
       //   { tabs: [{ title: "untitled", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },] },
       //   { tabs: [{ title: "untitled", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },] }
@@ -53,6 +57,7 @@ class App extends React.Component {
 
     this.setActiveTab = this.setActiveTab.bind(this)
     this.addTab = this.addTab.bind(this)
+    this.addTabs = this.addTabs.bind(this)
     this.closeTab = this.closeTab.bind(this)
     this.setTabContent = this.setTabContent.bind(this)
     this.append = this.append.bind(this)
@@ -93,8 +98,17 @@ class App extends React.Component {
     })
   }
 
+
+  addTabs(tabs) {
+    console.log(this.state.tabs)
+    console.log(tabs)
+    this.setState(oldState => {
+      return { tabs: [...oldState.tabs, ...tabs], activeTabIndex: oldState.tabs.length + tabs.length-1 };
+    })
+  }
+
   closeTab(pos) {
-    if (pos > 0 && this.state.activeTabIndex > 0) {
+    if ((pos > 0 && this.state.activeTabIndex > 0) || this.state.tabs.length > 1) {
       this.setState(oldState => {
         var tabs = oldState.tabs;
         var activeTabIndex = oldState.activeTabIndex
@@ -102,8 +116,8 @@ class App extends React.Component {
         tabs.splice(pos, 1)
         return { tabs: tabs, activeTabIndex: activeTabIndex };
       })
-    }else{
-      this.setState({activeTabIndex: 0, tabs: [{title: "untitled"}]})
+    } else {
+      this.setState({ activeTabIndex: 0, tabs: [{ title: "Untitled" }] })
     }
   }
 
@@ -125,6 +139,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.tabs)
     const { tabs, activeTabIndex, terminalIsOpen, terminalMessage, cm } = this.state
     const activeTab = tabs[activeTabIndex]
     return (
@@ -132,6 +147,7 @@ class App extends React.Component {
         <WindowBar
           title={activeTab.filename}
           menu={getMenu({
+            addTabs: this.addTabs,
             activeTab: activeTab,
             append: this.append,
             setFilename: this.setFilename,
@@ -143,27 +159,34 @@ class App extends React.Component {
           activeTabIndex={activeTabIndex}
         />
 
-        <Tabs
-          tabs={tabs}
-          activeTabIndex={activeTabIndex}
-          addTab={this.addTab}
-          closeTab={this.closeTab}
-          setActiveTab={this.setActiveTab} />
-        <Editor
-          setTabContent={this.setTabContent}
-          value={activeTab.data}
-          setLine={(line, ch) => this.setState({
-            cm: {
-              line: line,
-              ch: ch
-            }
-          })} />
+        <div className="pane-wrapper">
+          <Explorer files={this.state.files} />
+          <div className="main-pane">
+            <Tabs
+              tabs={tabs}
+              activeTabIndex={activeTabIndex}
+              addTab={this.addTab}
+              closeTab={this.closeTab}
+              setActiveTab={this.setActiveTab} />
+            <Editor
+              setTabContent={this.setTabContent}
+              value={activeTab.data}
+              setLine={(line, ch) => this.setState({
+                cm: {
+                  line: line,
+                  ch: ch
+                }
+              })} />
+            <Terminal
+              terminalIsOpen={terminalIsOpen}
+              filename={activeTab.filename}
+              messages={terminalMessage}
+            />
+          </div>
+        </div>
 
-        <Terminal
-          terminalIsOpen={terminalIsOpen}
-          filename={activeTab.filename}
-          messages={terminalMessage}
-        />
+
+
         <StatusBar options={cm} toggleTerminalVisibility={this.toggleTerminalVisibility} />
       </div>
     );
