@@ -94,6 +94,7 @@
 
 .CodeMirror-selected {
     background-color: var(--line--active) !important;
+    border-radius: 2px;
 }
 
 .CodeMirror-matchingbracket {
