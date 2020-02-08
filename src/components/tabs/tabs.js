@@ -1,12 +1,9 @@
 import * as React from 'react'
 import Tab from './tab/tab'
 import './tabs.css'
+import { compile } from '../../assets/crud'
 
 class Tabs extends React.Component {
-
-
-    componentDidMount() {
-    }
 
     render() {
         return (
@@ -27,12 +24,12 @@ class Tabs extends React.Component {
                     </svg>
                 </abbr>
                 <abbr title="compile" >
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={this.props.compile}>
                         <path fill="var(--primary-light)" d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z" />
                     </svg>
                 </abbr >
                 <abbr title="run" >
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onClick={this.props.run}>
                         <path fill="var(--primary-light)" d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z" />
                     </svg>
                 </abbr>
