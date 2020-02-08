@@ -30,6 +30,11 @@
     display: flex;
 }
 
+.dd-list-item--disabled {
+    color: var(--primary-light);
+    pointer-events: none;
+}
+
 .dd-list-item:hover {
     background-color: var(--dd--active-background);
     color: var(--dd--active-text)

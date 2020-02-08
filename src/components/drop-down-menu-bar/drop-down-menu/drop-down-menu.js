@@ -34,7 +34,7 @@ class DropDownMenu extends React.Component {
                             <div key={pos} className="dd-menu-group">
                                 {group.map(item =>
                                     <div
-                                        className="dd-list-item"
+                                        className={item.disabled ? "dd-list-item dd-list-item--disabled" : "dd-list-item"}
                                         key={item.id}
                                         onClick={() => this.onClickListener(item.action)}>
                                         <div>{item.title}</div>
