@@ -25,7 +25,6 @@ function maximizeWindow() {
 function WindowBar(props) {
     return (
         <div className="window-bar">
-            {/* <Menu menu={props.menu}  /> */}
             <DropDownMenuBar menu={props.menu} />
             <div className="window-bar__spacer"></div>
             <div className="window-bar__title">{props.title}</div>
