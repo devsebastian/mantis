@@ -1,110 +1,126 @@
-import { open, run, compileAndRun, saveAs, compile, openDirectory } from './crud'
-function getMenu(options) {
+import { open, run, compileAndRun, save, saveAs, compile, openDirectory } from './crud'
+
+export function getMenus(options) {
     return [
-        {
-            title: "File",
-            items: [
-                [
-                    { id: "new", title: "New", shortcut: "Ctrl+N", action: () => options.addTab('Untitled') },
-                    { id: "openfile", title: "Open File", shortcut: "Ctrl+O", action: () => open(options.addTabs) },
-                    { id: "opendirectory", title: "Open Directory", shortcut: "Ctrl+K Ctrl+O", action: () => openDirectory(options.addTabs) },
-                    { id: "exit", title: "Exit", action: () => { } },
-                ],
-                [
-                    {
-                        id: "saveas", title: "Save As", shortcut: "Ctrl+Shift+S", action: () => {
-                            saveAs(options.activeTab.data, (filename) => {
-                                this.setFilename(filename)
-                            })
-                        }
-                    }, {
-                        id: "save", title: "Save", shortcut: "Ctrl+S", action: () => {
-                            saveAs(options.activeTab.data, (filename) => {
-                                this.setFilename(filename)
-                            })
-                        }
-                    }
-                ], [
-                    { id: "preferences", title: "Preferences", action: () => { } }
-                ]
+        menu(
+            "File",
+            [
+                group([
+                    menuItem("new", "New", "Ctrl+N", () => options.addTab('Untitled')),
+                    menuItem("openFile", "Open File", "Ctrl+O", () => open(options.addTab)),
+                    menuItem("openDirectory", "Open Directory", "Ctrl+K Ctrl+O", () => openDirectory(options.setFiles)),
+                ]),
+                group([
+                    menuItem("saveas", "Save As", "Ctrl+Shift+S", () => { saveAs(options.activeTab.data, options.setPath) }),
+                    menuItem("save", "Save", "Ctrl+S", () => { save(options.path, options.activeTab.data, options.setPath) }, options.path === undefined ? true : false),
+                ]),
+                group([
+                    menuItem("preferences", "Preferences", "Ctrl+,", () => { }),
+                ]),
+                group([
+                    menuItem("exit", "Exit", null, () => { }),
+                ])
             ]
-        },
-        {
-            title: "Edit",
-            items: [
-                [{ id: "undo", title: "Undo", shortcut: "Ctrl+Z", action: () => { } },
-                { id: "redo", title: "Redo", shortcut: "Ctrl+Y", action: () => { } },
-                ],
-                [{ id: "cut", title: "Cut", shortcut: "Ctrl+X", action: () => { } },
-                { id: "copy", title: "Copy", shortcut: "Ctrl+C", action: () => { } },
-                { id: "paste", title: "Paste", shortcut: "Ctrl+V", action: () => { } },
-                ]
+        ),
+        menu(
+            "Edit",
+            [
+                group([
+                    menuItem("undo", "Undo", "Ctrl+Z", () => options.addTab('Untitled')),
+                    menuItem("redo", "Redo", "Ctrl+Y", () => open(options.addTab)),
+                ]),
+                group([
+                    menuItem("cut", "Cut", "Ctrl+X", () => { saveAs(options.activeTab.data, options.setPath) }),
+                    menuItem("copy", "Copy", "Ctrl+C", () => { save(options.path, options.activeTab.data, options.setPath) }),
+                    menuItem("paste", "Paste", "Ctrl+V", () => { save(options.path, options.activeTab.data, options.setPath) }),
+                ]),
+                group([
+                    menuItem("find", "Find", "Ctrl+F", () => { }),
+                    menuItem("replace", "Replace", "Ctrl+R", () => { }),
+                ]),
+                group([
+                    menuItem("autoIndent", "Auto Indent", "Shift+Tab", () => { }),
+                ])
             ]
-        }, {
-            title: "Selection",
-            items: [
-                [{ id: "selectall", title: "Select All", shortcut: "Ctrl+A", action: () => { } },
-                { id: "expandselection", title: "Expand Selection", action: () => { } },
-                { id: "shrinkselection", title: "Shrink Selection", action: () => { } },
-                ],
-                [{ id: "cut", title: "Cut", shortcut: "Ctrl+X", action: () => { } },
-                { id: "copy", title: "Copy", shortcut: "Ctrl+C", action: () => { } },
-                { id: "paste", title: "Paste", shortcut: "Ctrl+V", action: () => { } },
-                ]
+        ),
+        menu(
+            "Selection",
+            [
+                group([
+                    menuItem("selectAll", "Select All", "Ctrl+A", null),
+                    menuItem("expandSelection", "Expand Selection", null, null),
+                    menuItem("shrinkSelection", "Shrink Selection", null, null),
+                ]),
             ]
-        },
-        {
-            title: "Execute",
-            items: [
-                [
-                    {
-                        id: "compile", title: "Compile", shortcut: "F9", action: () => {
-                            options.clearTerminal()
-                            compile(options.activeTab.filename, options.activeTab.data, (filename) => {
-                                options.setFilename(filename)
-                            }, options.append)
-                        }
-                    },
-                    {
-                        id: "run", title: "Run", shortcut: "F10", action: () => {
-                            options.clearTerminal()
-                            run(options.activeTab.filename, options.activeTab.data, (filename) => {
-                                options.setFilename(filename)
-                            }, options.append)
-                        },
-                    },
-                    {
-                        id: "compileandrun", title: "Compile and Run", shortcut: "F11", action: () => {
-                            options.clearTerminal()
-                            compileAndRun(options.activeTab.filename, options.activeTab.data, (filename) => {
-                                options.setFilename(filename)
-                            }, options.append)
-                        }
-                    },
-                    { id: "rebuildall", title: "Rebuild All", shortcut: "F12", action: () => { console.log('new') } },
-                ],
-                [
-                    { id: "syntaxcheck", title: "Syntax Check", shortcut: "Ctrl+X", action: () => { console.log('new') } },
-                ],
-                [
-                    { id: "clean", title: "Clean", shortcut: "Ctrl+C", action: () => { console.log('new') } },
-                    { id: "paste", title: "Paste", shortcut: "Ctrl+V", action: () => { console.log('new') } },
-                ]
+        ),
+        menu(
+            "Execute",
+            [
+                group([
+                    menuItem("compile", "Compile", "F9", () => {
+                        options.clearTerminal()
+                        compile(options.activeTab.path, options.activeTab.data, (path) => {
+                            options.setPath(path)
+                        }, options.append)
+                    }),
+                    menuItem("run", "Run", "F10", () => {
+                        options.clearTerminal()
+                        run(options.activeTab.path, options.activeTab.data, (path) => {
+                            options.setPath(path)
+                        }, options.append)
+                    }),
+                    menuItem("compileAndRun", "Compile and Run", "F11", () => {
+                        options.clearTerminal()
+                        compileAndRun(options.activeTab.path, options.activeTab.data, (path) => {
+                            options.setPath(path)
+                        }, options.append)
+                    })
+                ]),
+                group([
+                    menuItem("rebuildAll", "Rebuild All", "F12", null),
+                    menuItem("syntaxCheck", "Syntax Check", "Ctrl+X", null),
+                ]),
+                group([
+                    menuItem("clean", "Clean", null, null),
+                    menuItem("paste", "Paste", null, null)
+                ])
             ]
-        },{
-            title: "Help",
-            items: [
-                [
-                    {id: "documentation", title: "Documentation", action: ()=>{}},
-                    {id: "releasenotes", title: "Release Notes", action: ()=>{}}
-                ],[
-                    {id: "about", title: "About", action: ()=>{}}
-                ],[
-                    {id: "check for updates", title: "Check for Updates", action: ()=>{}}
-                ]
+        ),
+        menu(
+            "Help",
+            [
+                group([
+                    menuItem("documnetation", "Documentation", null, null),
+                    menuItem("releaseNotes", "Release Notes", null, null),
+                ]),
+                group([
+                    menuItem("about", "About", null, null),
+                ]),
+                group([
+                    menuItem("checkForUpdates", "Find", null, null),
+                ]),
             ]
-        }
+        )
     ]
 }
 
-export default getMenu;
+function menu(title, groups) {
+    return {
+        title: title,
+        items: groups
+    }
+}
+
+function menuItem(id, title, shortcut, action, disabled) {
+    return {
+        id: id,
+        title: title,
+        shortcut: shortcut,
+        action: action,
+        disabled: disabled
+    }
+}
+
+function group(items) {
+    return items
+}
