@@ -1,5 +1,7 @@
 import run_script from "../somefile";
 
+const { shell } = window.require('electron')
+
 const { remote } = window.require('electron')
 const app = remote.app;
 const dialog = remote.dialog
@@ -42,22 +44,15 @@ export function open(callback) {
             { name: 'All Files', extensions: ['*'] }
         ]
     }
+
     dialog.showOpenDialog(WIN, options).then((result) => {
         if (result.filePaths === undefined) {
             return
         };
         if (typeof callback === 'function') {
-            var files = [];
             for (var file of result.filePaths) {
-                fs.readFile(file, (err, data) => {
-                    if (err) {
-                        console.log("An error ocurred creating the file: " + err.message)
-                        return
-                    }
-                    files.push({ title: file.split("\\").pop(), data: data.toString(), filename: file})
-                })
+                callback(file.split("\\").pop().toString(), fs.readFileSync(file.toString()).toString(), file.toString())
             }
-            callback(files)
         }
     }).catch(err => console.log(err))
 }
@@ -65,94 +60,82 @@ export function open(callback) {
 
 export function openDirectory(callback) {
     const options = {
-        title: "Save",
-        properties: ['multiSelections'],
+        title: "Open Directory",
         defaultPath: app.getPath('desktop'),
         buttonLabel: "Open",
-        filters: [
-            { name: 'C++ source files', extensions: ['cpp', 'cc', 'cxx', 'c++', 'cp'] },
-            { name: 'C source files', extensions: ['c'] },
-            { name: 'Header files', extensions: ['h', 'hpp', 'rh', 'hh'] },
-            { name: 'Resource files', extensions: ['rc'] },
-            { name: 'All Files', extensions: ['*'] }
-        ]
+        properties: ['openDirectory']
     }
     dialog.showOpenDialog(WIN, options).then((result) => {
-        console.log(result)
         if (result.filePaths === undefined) {
             return
         };
-        fs.readFile(result.filePaths[0], (err, data) => {
-            if (err) {
-                console.log("An error ocurred creating the file: " + err.message)
-                return
-            }
-            if (typeof callback === 'function') {
-                var t = result.filePaths[0].split("\\");
-                t = t[t.length - 1]
-                callback(t, data.toString(), result.filePaths[0]);
-            }
+        let files = []
+        fs.readdirSync(result.filePaths[0]).forEach(file => {
+            console.log(result.filePaths[0])
+            files.push(result.filePaths[0] + "\\" + file.toString())
         });
+        callback(files)
     }).catch(err => alert('there was an error opening the file.\n\n' + err))
 }
 
-export function save(filename, data, callback) {
+export function save(path, data, callback) {
     console.log('save called')
-    fs.writeFile(filename, data, (err) => {
+    fs.writeFile(path, data, (err) => {
         if (err) {
             console.log("An error ocurred creating the file: " + err.message)
             return
         }
         if (typeof callback === 'function')
-            callback(filename);
-        console.log("The file has been succesfully saved at " + filename);
+            callback(path);
+        console.log("The file has been succesfully saved at " + path);
     });
 }
 
-export function execute(filename, write) {
-    run_script("start", [filename], null, write);
+export function execute(path) {
+    shell.openItem(path)
+    // run_script("start", [path], null, write);
 }
 
-export function compileAndRun(filename, data, callback, write) {
-    if (filename === undefined) {
-        saveAs(data, (filename) => {
+export function compileAndRun(path, data, callback, write) {
+    if (path === undefined) {
+        saveAs(data, (path) => {
             if (typeof callback === 'function')
-                callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => execute(filename.replace(".cpp", ".exe")), write)
+                callback(path)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")))
         })
     } else {
-        save(filename, data, (filename) => {
+        save(path, data, (path) => {
             if (typeof callback === 'function')
-                callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => execute(filename.replace(".cpp", ".exe")), write)
+                callback(path)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")))
         })
     }
 }
 
-export function run(filename, data, callback, write) {
-    if (filename === undefined) {
-        saveAs(data, (filename) => {
+export function run(path, data, callback, write) {
+    if (path === undefined) {
+        saveAs(data, (path) => {
             if (typeof callback === 'function')
-                callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], () => execute(filename.replace(".cpp", ".exe")), write)
+                callback(path)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")))
         })
     } else {
-        execute(filename.replace(".cpp", ".exe"))
+        execute(path.replace(".cpp", ".exe"))
     }
 }
 
-export function compile(filename, data, callback, write) {
-    if (filename === undefined) {
-        saveAs(data, (filename) => {
+export function compile(path, data, callback, write) {
+    if (path === undefined) {
+        saveAs(data, (path) => {
             if (typeof callback === 'function')
-                callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], null, write)
+                callback(path)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, write)
         })
     } else {
-        save(filename, data, (filename) => {
+        save(path, data, (path) => {
             if (typeof callback === 'function')
-                callback(filename)
-            run_script("g++", [filename, "-o", filename.replace(".cpp", ".exe")], null, write)
+                callback(path)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, write)
         })
     }
 }
