@@ -6,7 +6,7 @@
 .explorer-resizer {
     cursor: col-resize;
     width: 3px;
-    border-top: 1px solid var(--primary-light);
+    border-right: 1px solid var(--primary-light);
     position: relative;
     background-color: var(--primary-dark);
     -webkit-user-select: auto;
@@ -91,6 +91,16 @@
 }
 
 .explorer-wrapper ::-webkit-scrollbar {
-    width: 8px !important;
-    height: 8px !important;
+    width: 6px !important;
+    height: 6px !important;
+}
+
+.explorer-wrapper ::-webkit-scrollbar-thumb{
+    border-radius: 6px;
+}
+
+
+.explorer-item-caret-gutter{
+    display: inline-block;
+    width: 20px;
 }
