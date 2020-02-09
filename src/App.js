@@ -167,11 +167,6 @@ class App extends React.Component {
       addTab: this.addTab,
       clearTerminal: this.clearTerminal,
     })
-
-    console.log(this.state)
-    console.log(this.state.tabs)
-    console.log(activeTab)
-    console.log
     return (
       <div className="app-wrapper">
         <WindowBar
