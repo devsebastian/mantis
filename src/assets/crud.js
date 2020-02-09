@@ -57,6 +57,17 @@ export function open(callback) {
     }).catch(err => console.log(err))
 }
 
+function readDirectory(path) {
+    let files = []
+    fs.readdirSync(path).forEach(file => {
+        if (fs.existsSync(path + "\\" + file) && fs.lstatSync(path + "\\" + file).isDirectory()) {
+            files.push({ title: file, files: readDirectory(path + "\\" + file) })
+        } else {
+            files.push(path + "\\" + file.toString())
+        }
+    });
+    return files
+}
 
 export function openDirectory(callback) {
     const options = {
@@ -69,14 +80,33 @@ export function openDirectory(callback) {
         if (result.filePaths === undefined) {
             return
         };
-        let files = []
-        fs.readdirSync(result.filePaths[0]).forEach(file => {
-            console.log(result.filePaths[0])
-            files.push(result.filePaths[0] + "\\" + file.toString())
-        });
+        var files = readDirectory(result.filePaths[0])
         callback(files)
     }).catch(err => alert('there was an error opening the file.\n\n' + err))
 }
+
+
+
+// export function openDirectory(callback) {
+//     const options = {
+//         title: "Open Directory",
+//         defaultPath: app.getPath('desktop'),
+//         buttonLabel: "Open",
+//         properties: ['openDirectory']
+//     }
+//     dialog.showOpenDialog(WIN, options).then((result) => {
+//         if (result.filePaths === undefined) {
+//             return
+//         };
+//         let files = []
+//         fs.readdirSync(result.filePaths[0]).forEach(file => {
+//             console.log(result.filePaths[0])
+//             files.push(result.filePaths[0] + "\\" + file.toString())
+//         });
+//         callback(files)
+//     }).catch(err => alert('there was an error opening the file.\n\n' + err))
+// }
+
 
 export function save(path, data, callback) {
     console.log('save called')
