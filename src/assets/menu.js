@@ -59,9 +59,18 @@ export function getMenus(options) {
                 group([
                     menuItem("compile", "Compile", "F9", () => {
                         options.clearTerminal()
-                        compile(options.activeTab.path, options.activeTab.data, (path) => {
-                            options.setPath(path)
-                        }, options.append)
+                        compile({
+                            path: options.activeTab.path,
+                            data: options.activeTab.data,
+                            callback: (path) => {
+                                options.setPath(path)
+                            },
+                            append: options.append,
+                            openTerminal: options.openTerminal
+                        })
+                        // compile(options.activeTab.path, options.activeTab.data, (path) => {
+                        //     options.setPath(path)
+                        // }, options.append)
                     }),
                     menuItem("run", "Run", "F10", () => {
                         options.clearTerminal()

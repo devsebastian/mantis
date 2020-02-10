@@ -1,4 +1,4 @@
-import run_script from "../somefile";
+import run_script from "../run-script";
 
 const { shell } = window.require('electron')
 
@@ -27,7 +27,7 @@ export function saveAs(data, callback) {
             return;
         }
         save(result.filePath, data, callback)
-    }).catch(err => alert('there was an error saving the file.'))
+    }).catch(err => console.log('there was an error saving the file: ' + err))
 }
 
 export function open(callback) {
@@ -154,18 +154,34 @@ export function run(path, data, callback, write) {
     }
 }
 
-export function compile(path, data, callback, write) {
+// export function compile(path, data, callback, write) {
+//     if (path === undefined) {
+//         saveAs(data, (path) => {
+//             if (typeof callback === 'function')
+//                 callback(path)
+//             run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, write)
+//         })
+//     } else {
+//         save(path, data, (path) => {
+//             if (typeof callback === 'function')
+//                 callback(path)
+//             run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, write)
+//         })
+//     }
+// }
+
+export function compile({ path, data, callback, append, openTerminal }) {
     if (path === undefined) {
         saveAs(data, (path) => {
             if (typeof callback === 'function')
                 callback(path)
-            run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, write)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, append, openTerminal)
         })
     } else {
         save(path, data, (path) => {
             if (typeof callback === 'function')
                 callback(path)
-            run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, write)
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe")], null, append, openTerminal)
         })
     }
 }
