@@ -82,7 +82,7 @@ export function openDirectory(callback) {
         };
         var files = readDirectory(result.filePaths[0])
         callback(files)
-    }).catch(err => alert('there was an error opening the file.\n\n' + err))
+    }).catch(err => console.log(err))
 }
 
 
