@@ -35,6 +35,8 @@
     --divider: #49483E;
     /*terminal*/
     --terminal-text: #e3e5ea;
+    /* explorer */
+    --explorer-item-text: #e3e5ea;
 
 }
 
