@@ -16,23 +16,25 @@ const Store = window.require('electron-store')
 class App extends React.Component {
 
   componentDidMount() {
-      const store = new Store();
-      this.setState({
-        activeTabIndex: store.get('activeTabIndex'),
-        terminalIsOpen: store.get('terminalIsOpen'),
-        terminalMessage: store.get('terminalMessage'),
-        tabs: store.get('tabs'),
-        cm: store.get('cm')
-      })
+    const store = new Store();
+    this.setState({
+      activeTabIndex: store.get('activeTabIndex'),
+      terminalIsOpen: store.get('terminalIsOpen'),
+      terminalMessage: store.get('terminalMessage'),
+      tabs: store.get('tabs'),
+      files: store.get('files'),
+      cm: store.get('cm')
+    })
 
-      window.addEventListener('unload', (e) => {
-        var store = new Store();
-        store.set('activeTabIndex', this.state.activeTabIndex)
-        store.set('terminalIsOpen', this.state.terminalIsOpen)
-        store.set('terminalMessage', this.state.terminalMessage)
-        store.set('tabs', this.state.tabs)
-        store.set('cm', this.state.cm)
-      })
+    window.addEventListener('unload', (e) => {
+      var store = new Store();
+      store.set('activeTabIndex', this.state.activeTabIndex)
+      store.set('terminalIsOpen', this.state.terminalIsOpen)
+      store.set('terminalMessage', this.state.terminalMessage)
+      store.set('tabs', this.state.tabs)
+      store.set('cm', this.state.cm)
+      store.set('files', this.state.files)
+    })
   }
 
 
@@ -63,6 +65,7 @@ class App extends React.Component {
     this.setFiles = this.setFiles.bind(this)
     this.clearTerminal = this.clearTerminal.bind(this);
     this.toggleTerminalVisibility = this.toggleTerminalVisibility.bind(this)
+    this.openTerminal = this.openTerminal.bind(this)
   }
 
   write(message) {
@@ -135,11 +138,16 @@ class App extends React.Component {
     this.setState(oldState => { return { terminalIsOpen: !oldState.terminalIsOpen } })
   }
 
+  openTerminal() {
+    this.setState({ terminalIsOpen: true })
+  }
+
   setFiles(files) {
     this.setState({ files: files.sort().reverse() })
   }
 
   render() {
+    console.log(this.state)
     let { tabs, activeTabIndex, terminalIsOpen, terminalMessage, cm } = this.state
     let activeTab = tabs[activeTabIndex]
     let menu = getMenus({
@@ -148,6 +156,7 @@ class App extends React.Component {
       append: this.append,
       path: activeTab.path,
       setPath: this.setPath,
+      openTerminal: this.openTerminal,
       setFiles: this.setFiles,
       addTab: this.addTab,
       clearTerminal: this.clearTerminal,
@@ -172,9 +181,9 @@ class App extends React.Component {
               setActiveTab={this.setActiveTab}
               compile={() => {
                 this.clearTerminal()
-                compile(activeTab.path, activeTab.data, (path) => {
+                compile({path: activeTab.path, data: activeTab.data, callback: (path) => {
                   this.setPath(path)
-                }, this.append)
+                }, append: this.append, openTerminal: this.openTerminal})
               }}
               run={() => {
                 this.clearTerminal()
