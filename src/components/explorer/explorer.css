@@ -19,8 +19,13 @@
     flex: 1;
     flex-direction: column;
     overflow: hidden;
-    color: var(--text-secondary);
+    color: var(--explorer-item-text);
     -webkit-user-select: none;
+}
+
+.explorer-scroller{
+    flex: 1;
+    overflow: auto;
 }
 
 .explorer-search-bar {
@@ -38,12 +43,10 @@
 
 .explorer-items {
     flex: 1;
-    overflow: auto;
 }
 
 .explorer-item {
     font-size: 0.8em;
-    color: var(--text-secondary);
     -webkit-user-select: none;
     cursor: pointer;
     padding: 0px 12px;
@@ -103,4 +106,8 @@
 .explorer-item-caret-gutter{
     display: inline-block;
     width: 20px;
+}
+
+.explorer__group{
+    padding-left: 10px;
 }

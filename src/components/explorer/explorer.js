@@ -35,76 +35,45 @@ function CaretSymbol({ size, folderIsClosed }) {
 }
 
 
-class DisplayFiles extends React.Component {
+class ExplorerItems extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            path: []
-        }
-    }
-
-    componentDidUpdate(){
-        if(this.state.path !== this.props.path){
-            this.setState({path: this.props.path})
-            return false;
+            positions: []
         }
     }
 
     render() {
-        console.log(this.state)
-        const { path } = this.state
         return (
             <div className="explorer-items" >
-                {path.map((path, pos) => {
-                    if (typeof path === 'object') {
-                        if (path[pos] !== undefined && path[pos].isOpen) {
-                            return (
-                                <div className="explorer-item" key={pos} onClick={() => {
-                                    this.setState(state => {
-                                        var path = [...state.path]
-                                        path[pos].isOpen = false
-                                        return { path: path }
-                                    })
-                                }} >
-                                    <div className="explorer-item-caret-gutter"><CaretSymbol folderIsClosed={true} size="16" /></div>
-                                    <FileIcon cname="explorer-item__icon" size="16" type="folder" />
-                                    <div className="explorer-item__title">{path.title}</div>
-                                    {path[pos].isOpen ? <DisplayFiles path={path.files} /> : <div></div>}
-                                </div>
-                            )
-                        } else {
-                            return (
-                                <div className="explorer-item" key={pos}  onClick={() => {
-                                    this.setState(state => {
-                                        var path = [...state.path]
-                                        path[pos].isOpen = true
-                                        return { path: path }
-                                    })
-                                }}>
-                                    <div className="explorer-item-caret-gutter"><CaretSymbol folderIsClosed={true} size="16" /></div>
-                                    <FileIcon cname="explorer-item__icon" size="16" type="folder" />
-                                    <div className="explorer-item__title">{path.title}</div>
-                                </div>
-                            )
-                        }
-
-                    } else {
+                {this.props.path.map((file, pos) => {
+                    if (typeof file === 'object') {
                         return (
-                            <div className="explorer-item" key={pos} onClick={() => this.props.addTab(path.split("\\").pop(), fs.readFileSync(path.toString()).toString(), path.toString)} >
-                                <div className="explorer-item-caret-gutter"></div>
-                                <FileIcon cname="explorer-item__icon" size="16" type={path.split(".").pop()} />
-                                <div className="explorer-item__title">{path.split("\\").pop()}</div>
-                            </div>
-                        )
+                            <div key={pos} >
+                                <ExplorerTab type={"folder"} showCaret={true} isClosed={!this.state.positions.includes(pos)} title={file.title} clickListener={() => {
+                                    this.setState(state => {
+                                        var positions = state.positions;
+                                        if (positions.includes(pos)) {
+                                            positions.pop(pos)
+                                        } else {
+                                            positions.push(pos)
+                                        }
+                                        return { positions: positions }
+                                    })
+                                }} />
+                                <div className="explorer__group">{this.state.positions.includes(pos) ? <ExplorerItems addTab={this.props.addTab} path={file.files} /> : <div></div>}
+                                </div>
+                            </div>)
+                    } else {
+                        return <ExplorerTab key={pos} type={file.split(".").pop()} title={file.split("\\").pop()} clickListener={() => this.props.addTab(file.split("\\").pop(), fs.readFileSync(file.toString()).toString(), file.toString)} />
                     }
                 })}
-            </div>)
+            </div >)
     }
 }
 
 class Explorer extends React.Component {
-
     render() {
         return (
             <div className="explorer-wrapper">
@@ -112,12 +81,24 @@ class Explorer extends React.Component {
                     <div className="explorer-search-bar">
                         <input placeholder="Search" />
                     </div>
-                    <DisplayFiles path={this.props.files} />
+                    <div className="explorer-scroller">
+                        <ExplorerItems path={this.props.files} addTab={this.props.addTab} />
+                    </div>
                 </div>
                 <div className="explorer-resizer" onMouseDown={resize} ></div>
             </div>
         )
     }
+}
+
+function ExplorerTab({ title, type, clickListener, showCaret, isClosed }) {
+    return (
+        <div className="explorer-item" onClick={clickListener} >
+            {showCaret ? <CaretSymbol size="12" folderIsClosed={isClosed} /> : <div className="explorer-item-caret-gutter"></div>}
+            <FileIcon cname="explorer-item__icon" size="16" type={type} />
+            <div className="explorer-item__title">{title}</div>
+        </div>
+    )
 }
 
 export default Explorer;
