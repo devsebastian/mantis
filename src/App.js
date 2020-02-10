@@ -16,28 +16,23 @@ const Store = window.require('electron-store')
 class App extends React.Component {
 
   componentDidMount() {
-    var files = []
-    fs.readdirSync(app.getPath('desktop')).forEach(file => {
-      files.push(app.getPath('desktop') + "\\" + file.toString())
-    });
-    this.setFiles(files)
-    //   const store = new Store();
-    //   this.setState({
-    //     activeTabIndex: store.get('activeTabIndex'),
-    //     terminalIsOpen: store.get('terminalIsOpen'),
-    //     terminalMessage: store.get('terminalMessage'),
-    //     tabs: store.get('tabs'),
-    //     cm: store.get('cm')
-    //   })
+      const store = new Store();
+      this.setState({
+        activeTabIndex: store.get('activeTabIndex'),
+        terminalIsOpen: store.get('terminalIsOpen'),
+        terminalMessage: store.get('terminalMessage'),
+        tabs: store.get('tabs'),
+        cm: store.get('cm')
+      })
 
-    //   window.addEventListener('unload', (e) => {
-    //     var store = new Store();
-    //     store.set('activeTabIndex', this.state.activeTabIndex)
-    //     store.set('terminalIsOpen', this.state.terminalIsOpen)
-    //     store.set('terminalMessage', this.state.terminalMessage)
-    //     store.set('tabs', this.state.tabs)
-    //     store.set('cm', this.state.cm)
-    //   })
+      window.addEventListener('unload', (e) => {
+        var store = new Store();
+        store.set('activeTabIndex', this.state.activeTabIndex)
+        store.set('terminalIsOpen', this.state.terminalIsOpen)
+        store.set('terminalMessage', this.state.terminalMessage)
+        store.set('tabs', this.state.tabs)
+        store.set('cm', this.state.cm)
+      })
   }
 
 
@@ -54,17 +49,7 @@ class App extends React.Component {
       tabs: [
         { title: "untitled" },
       ],
-      files: [
-        "C:\\Users\\devse\\OneDrive\\Desktop\\dev.cpp",
-        "C:\\Users\\devse\\OneDrive\\Desktop\\helloworld.cpp",
-        "C:\\Users\\devse\\OneDrive\\Desktop\\joe.py",
-        "C:\\Users\\devse\\OneDrive\\Desktop\\helloworld.css",
-        "C:\\Users\\devse\\OneDrive\\Desktop\\helloworld.c",
-      ]
-      // panes: [
-      //   { tabs: [{ title: "untitled", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },] },
-      //   { tabs: [{ title: "untitled", data: "#include<iostream>\n#include<conio.h>\nusing namespace std;\nint main(){\n\tcout<<\"dev\";\n\tgetch();\n\treturn 0;\n}", url: "" },] }
-      // ]
+      files: []
     }
 
     this.setActiveTab = this.setActiveTab.bind(this)
@@ -151,7 +136,7 @@ class App extends React.Component {
   }
 
   setFiles(files) {
-    this.setState({ files: files })
+    this.setState({ files: files.sort().reverse() })
   }
 
   render() {
