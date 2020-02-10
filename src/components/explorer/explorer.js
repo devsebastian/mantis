@@ -66,7 +66,7 @@ class ExplorerItems extends React.Component {
                                 </div>
                             </div>)
                     } else {
-                        return <ExplorerTab key={pos} type={file.split(".").pop()} title={file.split("\\").pop()} clickListener={() => this.props.addTab(file.split("\\").pop(), fs.readFileSync(file.toString()).toString(), file.toString)} />
+                        return <ExplorerTab key={pos} type={file.split(".").pop()} title={file.split("\\").pop()} clickListener={() => this.props.addTab(file.split("\\").pop(), fs.readFileSync(file.toString()).toString(), file.toString())} />
                     }
                 })}
             </div >)
