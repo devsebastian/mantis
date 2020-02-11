@@ -8,6 +8,7 @@ import Terminal from './components/terminal/terminal';
 import Editor from './components/editor/editor';
 import Explorer from './components/explorer/explorer';
 import { compile, run } from './assets/crud';
+import { SolarisedDark, Monokai} from './assets/themes/styles'
 
 const { app } = window.require('electron').remote
 const fs = window.require('fs')
@@ -15,7 +16,16 @@ const Store = window.require('electron-store')
 
 class App extends React.Component {
 
+  setTheme() {
+    var theme = Monokai()
+    Object.keys(theme).forEach(key => {
+      document.body.style.setProperty('--' + key, theme[key])
+    });
+  }
+
   componentDidMount() {
+    this.setTheme();
+
     const store = new Store();
     this.setState({
       activeTabIndex: store.get('activeTabIndex'),
@@ -45,6 +55,7 @@ class App extends React.Component {
         line: 0,
         ch: 0
       },
+      theme: "monokai",
       terminalIsOpen: false,
       terminalMessage: [],
       activeTabIndex: 0,
@@ -163,6 +174,7 @@ class App extends React.Component {
     })
     return (
       <div className="app-wrapper">
+        <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/monakai.css'} />
         <WindowBar
           title={activeTab === undefined ? "" : activeTab.path}
           menu={menu}
@@ -181,9 +193,11 @@ class App extends React.Component {
               setActiveTab={this.setActiveTab}
               compile={() => {
                 this.clearTerminal()
-                compile({path: activeTab.path, data: activeTab.data, callback: (path) => {
-                  this.setPath(path)
-                }, append: this.append, openTerminal: this.openTerminal})
+                compile({
+                  path: activeTab.path, data: activeTab.data, callback: (path) => {
+                    this.setPath(path)
+                  }, append: this.append, openTerminal: this.openTerminal
+                })
               }}
               run={() => {
                 this.clearTerminal()

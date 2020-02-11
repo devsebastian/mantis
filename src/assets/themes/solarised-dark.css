@@ -1,0 +1,44 @@
+
+:root {
+    /* app */
+    --primary: #002b36;
+    --primary-light: #004052;
+    --primary-dark: #00212b;
+    --accent: #fff;
+    --window-bar: #00212b;
+    --status-bar: #00212b;
+
+    /*  editor */
+    --string: #17a198;
+    --number: #d33682 ;
+    --operator: #859900;
+    --def: #0f7fd2 ;
+    --type: #93a1a1;
+    --comment: #75715E;
+    --text-primary: #bbbbbb;
+    --text-secondary: #aaabaf;
+    --cursor: #fff;
+    /*active-line*/
+    --line--active: #3e3d32;
+    /*  drop down menu  */
+    --dd--active-background: #49483E;
+    --dd--active-text: #fff;
+    /*  tabs-wrapper*/
+    --tabs-wrapper: #002b37;
+    /*  tab */
+    --tab-background--active: #002b37;
+    --tab-text--active: #fff;
+    --tab-border--active: #fff;
+    --tab-background--hover: #272822;
+    --tab-text--hover: #fff;
+    --tab-border--hover: #004052;
+    --tab-background: #272822;
+    --tab-text: #aaabaf;
+    --tab-border: #F92672;
+    /*divider*/
+    --divider: #004052;
+    /*terminal*/
+    --terminal-text: #e3e5ea;
+    /* explorer */
+    --explorer-item-text: #e3e5ea;
+}
