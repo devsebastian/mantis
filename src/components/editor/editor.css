@@ -1,44 +1,4 @@
-:root {
-    --primary: #272822;
-    --primary-light: #49483E;
-    --primary-dark: #1b1b17;
-    --window-bar: #1e1f1c;
-    --status-bar: #;
-    --string: #E6DB74;
-    --number: #AE81FF;
-    --operator: #F92672;
-    --def: #A6E22E;
-    --type: #66D9EF;
-    --comment: #75715E;
-    --text-primary: #e3e5ea;
-    --text-secondary: #aaabaf;
-    --cursor: #fff;
-    --accent: #F92672;
-    /*active-line*/
-    --line--active: #3e3d32;
-    /*  drop down menu  */
-    --dd--active-background: #49483E;
-    --dd--active-text: #fff;
-    /*  tabs-wrapper*/
-    --tabs-wrapper: #272822;
-    /*  tab */
-    --tab-background--active: #272822;
-    --tab-text--active: #fff;
-    --tab-border--active: #F92672;
-    --tab-background--hover: #272822;
-    --tab-text--hover: #fff;
-    --tab-border--hover: #49483E;
-    --tab-background: #272822;
-    --tab-text: #aaabaf;
-    --tab-border: #F92672;
-    /*divider*/
-    --divider: #49483E;
-    /*terminal*/
-    --terminal-text: #e3e5ea;
-    /* explorer */
-    --explorer-item-text: #e3e5ea;
 
-}
 
 .cm-type {
     color: var(--type) !important;

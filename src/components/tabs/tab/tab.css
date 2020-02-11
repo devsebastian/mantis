@@ -15,6 +15,7 @@
 
 .tab--selected{
     color: var(--tab-text--active);
+    background-color: var(--tab-background--active);
     border-color: var(--tab-border--active) !important;
 }
 

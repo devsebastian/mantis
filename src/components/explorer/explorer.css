@@ -6,7 +6,7 @@
 .explorer-resizer {
     cursor: col-resize;
     width: 3px;
-    border-right: 1px solid var(--primary-light);
+    border-right: 1px solid var(--divider);
     position: relative;
     background-color: var(--primary-dark);
     -webkit-user-select: auto;

@@ -2,7 +2,7 @@
     height: 25px;
     width: 100%;
     border-top: 1px solid var(--divider);
-    background-color: var(--primary);
+    background-color: var(--status-bar);
     color: var(--text-secondary);
     font-size: 0.7em;
     -webkit-user-select: none;
