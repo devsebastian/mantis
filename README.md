@@ -7,6 +7,7 @@
 
 > Mantis is still in its very early stages. Breaking changes might result in the app crashing or not working as intended.
 
+![Mantis](src/assets/static/Mantis.png)
 ## Getting the Sources
 First, fork the mantis repository so that you can make a pull request. Then, clone your fork locally:
 git clone https://github.com/[your-github-account]/mantis.git
