@@ -80,9 +80,9 @@ export function getMenus(options) {
                     }),
                     menuItem("compileAndRun", "Compile and Run", "F11", () => {
                         options.clearTerminal()
-                        compileAndRun(options.activeTab.path, options.activeTab.data, (path) => {
+                        compileAndRun({path: options.activeTab.path, data: options.activeTab.data, callback: (path) => {
                             options.setPath(path)
-                        }, options.append)
+                        }, append: options.append, openTerminal: options.openTerminal})
                     })
                 ]),
                 group([
