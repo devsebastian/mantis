@@ -85,29 +85,6 @@ export function openDirectory(callback) {
     }).catch(err => console.log(err))
 }
 
-
-
-// export function openDirectory(callback) {
-//     const options = {
-//         title: "Open Directory",
-//         defaultPath: app.getPath('desktop'),
-//         buttonLabel: "Open",
-//         properties: ['openDirectory']
-//     }
-//     dialog.showOpenDialog(WIN, options).then((result) => {
-//         if (result.filePaths === undefined) {
-//             return
-//         };
-//         let files = []
-//         fs.readdirSync(result.filePaths[0]).forEach(file => {
-//             console.log(result.filePaths[0])
-//             files.push(result.filePaths[0] + "\\" + file.toString())
-//         });
-//         callback(files)
-//     }).catch(err => alert('there was an error opening the file.\n\n' + err))
-// }
-
-
 export function save(path, data, callback) {
     console.log('save called')
     fs.writeFile(path, data, (err) => {
@@ -117,7 +94,6 @@ export function save(path, data, callback) {
         }
         if (typeof callback === 'function')
             callback(path);
-        console.log("The file has been succesfully saved at " + path);
     });
 }
 
@@ -126,28 +102,28 @@ export function execute(path) {
     // run_script("start", [path], null, write);
 }
 
-export function compileAndRun(path, data, callback, write) {
+export function compileAndRun({path, data, callback, append, openTerminal}) {
     if (path === undefined) {
         saveAs(data, (path) => {
             if (typeof callback === 'function')
                 callback(path)
-            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")))
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, append], () => execute(path.replace(".cpp", ".exe")), append, openTerminal)
         })
     } else {
         save(path, data, (path) => {
             if (typeof callback === 'function')
                 callback(path)
-            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")))
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, append], () => execute(path.replace(".cpp", ".exe")), append, openTerminal)
         })
     }
 }
 
-export function run(path, data, callback, write) {
+export function run(path, data, callback, write, openTerminal) {
     if (path === undefined) {
         saveAs(data, (path) => {
             if (typeof callback === 'function')
                 callback(path)
-            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")))
+            run_script("g++", [path, "-o", path.replace(".cpp", ".exe"), null, write], () => execute(path.replace(".cpp", ".exe")), write, openTerminal)
         })
     } else {
         execute(path.replace(".cpp", ".exe"))
