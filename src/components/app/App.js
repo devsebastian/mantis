@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import WindowBar from './components/window-bar/window-bar'
-import StatusBar from './components/status-bar/status-bar';
-import { getMenus } from './assets/menu'
-import Tabs from './components/tabs/tabs';
-import Terminal from './components/terminal/terminal';
-import Editor from './components/editor/editor';
-import Explorer from './components/explorer/explorer';
-import { compile, run } from './assets/crud';
-import { SolarisedDark, Monokai} from './assets/themes/styles'
+import WindowBar from '../window-bar/window-bar'
+import StatusBar from '../status-bar/status-bar';
+import { getMenus } from '../../assets/menu'
+import Tabs from '../tabs/tabs';
+import Terminal from '../terminal/terminal';
+import Editor from '../editor/editor';
+import Explorer from '../explorer/explorer';
+import { compile, run, compileAndRun } from '../../assets/crud';
+import { SolarisedDark, Monokai } from '../../assets/themes/styles'
 
 const { app } = window.require('electron').remote
 const fs = window.require('fs')
@@ -172,6 +172,7 @@ class App extends React.Component {
       addTab: this.addTab,
       clearTerminal: this.clearTerminal,
     })
+
     return (
       <div className="app-wrapper">
         <link rel="stylesheet" type="text/css" href={process.env.PUBLIC_URL + '/monakai.css'} />
@@ -180,6 +181,7 @@ class App extends React.Component {
           menu={menu}
           setActiveTab={activeTab}
           tabs={tabs}
+          openTerminal={this.openTerminal}
           activeTabIndex={activeTabIndex}
         />
         <div className="pane-wrapper">
@@ -204,6 +206,15 @@ class App extends React.Component {
                 run(activeTab.path, activeTab.data, (path) => {
                   this.setPath(path)
                 }, this.append)
+              }}
+
+              compileAndRun={() => {
+                this.clearTerminal()
+                compileAndRun({
+                  path: activeTab.path, data: activeTab.data, callback: (path) => {
+                    this.setPath(path)
+                  }, append: this.append, openTerminal: this.openTerminal
+                })
               }}
             />
             <Editor
