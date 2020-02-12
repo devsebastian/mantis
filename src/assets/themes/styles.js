@@ -30,7 +30,8 @@ export function Monokai() {
         'tab-border': '#F92672',
         'divider': '#49483E',
         'terminal-text': '#e3e5ea',
-        'explorer-item-text': '#e3e5ea'
+        'explorer-item-text': '#e3e5ea',
+        'explorer-icon': '#AE81FF'
     }
 }
 

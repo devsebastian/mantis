@@ -6,7 +6,6 @@
 .explorer-resizer {
     cursor: col-resize;
     width: 3px;
-    border-right: 1px solid var(--divider);
     position: relative;
     background-color: var(--primary-dark);
     -webkit-user-select: auto;
@@ -50,14 +49,11 @@
     -webkit-user-select: none;
     cursor: pointer;
     padding: 0px 12px;
+    display: flex;
 }
 
 .explorer-item:hover {
     background-color: var(--primary-light);
-}
-
-.explorer-item {
-    display: flex;
 }
 
 /* 
@@ -107,7 +103,7 @@
     display: inline-block;
     width: 20px;
 }
-
+/* 
 .explorer__group{
     padding-left: 10px;
-}
+} */
