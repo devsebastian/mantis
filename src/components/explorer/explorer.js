@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './explorer.css'
-import FileIcon from '../../assets/icons-generator';
+import FileIcon from '../../assets/explorer-icons';
 
 const fs = window.require('fs')
 function resize(e) {
@@ -51,7 +51,7 @@ class ExplorerItems extends React.Component {
                     if (typeof file === 'object') {
                         return (
                             <div key={pos} >
-                                <ExplorerTab type={"folder"} showCaret={true} isClosed={!this.state.positions.includes(pos)} title={file.title} clickListener={() => {
+                                <ExplorerTab padding={this.props.padding} type={"folder"} showCaret={true} isClosed={!this.state.positions.includes(pos)} title={file.title} clickListener={() => {
                                     this.setState(state => {
                                         var positions = state.positions;
                                         if (positions.includes(pos)) {
@@ -62,11 +62,13 @@ class ExplorerItems extends React.Component {
                                         return { positions: positions }
                                     })
                                 }} />
-                                <div className="explorer__group">{this.state.positions.includes(pos) ? <ExplorerItems addTab={this.props.addTab} path={file.files} /> : <div></div>}
+                                <div className="explorer__group">{this.state.positions.includes(pos) ?
+                                    <ExplorerItems padding={this.props.padding == undefined ? 20 : this.props.padding + 8} addTab={this.props.addTab} path={file.files} /> :
+                                    <div></div>}
                                 </div>
                             </div>)
                     } else {
-                        return <ExplorerTab key={pos} type={file.split(".").pop()} title={file.split("\\").pop()} clickListener={() => this.props.addTab(file.split("\\").pop(), fs.readFileSync(file.toString()).toString(), file.toString())} />
+                        return <ExplorerTab padding={this.props.padding} key={pos} type={file.split(".").pop()} title={file.split("\\").pop()} clickListener={() => this.props.addTab(file.split("\\").pop(), fs.readFileSync(file.toString()).toString(), file.toString())} />
                     }
                 })}
             </div >)
@@ -91,10 +93,12 @@ class Explorer extends React.Component {
     }
 }
 
-function ExplorerTab({ title, type, clickListener, showCaret, isClosed }) {
+function ExplorerTab({ title, type, clickListener, showCaret, isClosed, padding }) {
     return (
-        <div className="explorer-item" onClick={clickListener} >
-            {showCaret ? <CaretSymbol size="12" folderIsClosed={isClosed} /> : <div className="explorer-item-caret-gutter"></div>}
+        <div className="explorer-item" onClick={clickListener} style={{ paddingLeft: padding }}>
+            <div className="explorer-item-caret-gutter">
+                {showCaret ? <CaretSymbol size="16" folderIsClosed={isClosed} /> : <div></div>}
+            </div>
             <FileIcon cname="explorer-item__icon" size="16" type={type} />
             <div className="explorer-item__title">{title}</div>
         </div>
