@@ -104,6 +104,13 @@ class App extends React.Component {
   }
 
   addTab(title, data, path) {
+    var tabs = this.state.tabs;
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].path === path) {
+        this.setActiveTab(i)
+        return;
+      }
+    }
     this.setState(oldState => {
       var tabs = [...oldState.tabs, { title: title, data: data, path: path }]
       return { tabs: tabs, activeTabIndex: tabs.length - 1 };
