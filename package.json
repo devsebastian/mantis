@@ -13,6 +13,7 @@
   "dependencies": {
     "codemirror": "^5.51.0",
     "electron-store": "^5.1.0",
+    "mousetrap": "^1.6.5",
     "react": "^15.4.2",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^15.4.2"
