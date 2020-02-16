@@ -86,7 +86,6 @@ export function openDirectory(callback) {
 }
 
 export function save(path, data, callback) {
-    console.log('save called')
     fs.writeFile(path, data, (err) => {
         if (err) {
             console.log("An error ocurred creating the file: " + err.message)
