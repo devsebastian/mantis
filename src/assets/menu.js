@@ -1,6 +1,30 @@
 import { open, run, compileAndRun, save, saveAs, compile, openDirectory } from './crud'
 
+const electron = window.require('electron').remote;
+const app = electron.app;
+
+// globalShortcut.register('Ctrl+Shift+S', saveAsMenu)
+// globalShortcut.register('Ctrl+S', saveMenu)
+import Mousetrap from 'mousetrap'
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind'
+
+
+function saveMenu(path, data, setPath) {
+    save(path, data, setPath);
+}
+
+function saveAsMenu(data, setPath) {
+    saveAs(data, setPath)
+}
+
 export function getMenus(options) {
+    Mousetrap.bindGlobal('ctrl+s', (e) => {
+        options.path === undefined ? saveAsMenu(options.activeTab.data, options.setPath) : saveMenu(options.activeTab.path, options.activeTab.data, options.setPath);
+    });
+
+    Mousetrap.bindGlobal('ctrl+shift+s', (e) => {
+        saveAsMenu(options.data, options.setPath);
+    });
     return [
         menu(
             "File",
@@ -11,14 +35,14 @@ export function getMenus(options) {
                     menuItem("openDirectory", "Open Directory", "Ctrl+K Ctrl+O", () => openDirectory(options.setFiles)),
                 ]),
                 group([
-                    menuItem("saveas", "Save As", "Ctrl+Shift+S", () => { saveAs(options.activeTab.data, options.setPath) }),
-                    menuItem("save", "Save", "Ctrl+S", () => { save(options.path, options.activeTab.data, options.setPath) }, options.path === undefined ? true : false),
+                    menuItem("saveas", "Save As", "Ctrl+Shift+S", () => saveAsMenu(options.activeTab.data, options.setPath)),
+                    menuItem("save", "Save", "Ctrl+S", () => saveMenu(options.path, options.activeTab.data, options.setPath), options.path === undefined ? true : false),
                 ]),
                 group([
                     menuItem("preferences", "Preferences", "Ctrl+,", () => { }),
                 ]),
                 group([
-                    menuItem("exit", "Exit", null, () => { }),
+                    menuItem("exit", "Exit", null, () => { app.quit() }),
                 ])
             ]
         ),
@@ -80,9 +104,11 @@ export function getMenus(options) {
                     }),
                     menuItem("compileAndRun", "Compile and Run", "F11", () => {
                         options.clearTerminal()
-                        compileAndRun({path: options.activeTab.path, data: options.activeTab.data, callback: (path) => {
-                            options.setPath(path)
-                        }, append: options.append, openTerminal: options.openTerminal})
+                        compileAndRun({
+                            path: options.activeTab.path, data: options.activeTab.data, callback: (path) => {
+                                options.setPath(path)
+                            }, append: options.append, openTerminal: options.openTerminal
+                        })
                     })
                 ]),
                 group([
