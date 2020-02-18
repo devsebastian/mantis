@@ -35,4 +35,4 @@ OR
 npm run dev
 ```
 ## License
-MIT © Dev Sebastian
+Copyright (c) 2020 Dev Sebastian
