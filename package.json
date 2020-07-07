@@ -5,7 +5,7 @@
   "author": "Dev Sebastian",
   "homepage": "./",
   "devDependencies": {
-    "electron": "^8.0.0",
+    "electron": "^8.2.4",
     "electron-builder": "^22.3.2",
     "foreman": "^3.0.1",
     "react-scripts": "0.8.5"
