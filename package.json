@@ -8,7 +8,7 @@
     "electron": "^8.0.0",
     "electron-builder": "^22.3.2",
     "foreman": "^3.0.1",
-    "react-scripts": "0.8.5"
+    "react-scripts": "5.0.1"
   },
   "dependencies": {
     "codemirror": "^5.51.0",
